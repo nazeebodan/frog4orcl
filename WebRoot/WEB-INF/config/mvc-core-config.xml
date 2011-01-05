@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<!--前台展示指定为jsp-->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+
+	<!--连接中用于区分方法映射的参数设定-->
+	<bean id="paraMethodResolver"
+		class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+		<property name="paramName">
+			<value>method</value>
+		</property>
+	</bean>
+
+	<!-- 以下为aop的配置,一共有2种类型的AOP配置 -->
+
+	<!--  
+		<bean id="aopMethodInterceptor"
+		class="com.kikacn.framework.aop.ActionHandlerInterceptor">
+		</bean>
+		<aop:config>
+		<aop:pointcut id="a"
+		expression="execution(* com.kikacn.business.*.*(..))" />
+		<aop:advisor pointcut-ref="a" advice-ref="aopMethodInterceptor" />
+		</aop:config>
+		
+		
+		<bean id="kikaAop" class="com.kikacn.framework.aop.OtherMethodAopImpl"></bean>
+		<aop:config>
+		<aop:pointcut id="aop"
+		expression="execution(* com.kikacn.business.*.*.*.*(..))" />
+		<aop:advisor pointcut-ref="aop" advice-ref="kikaAop" />
+		</aop:config>
+	-->
+
+	<!-- aop配置结束 -->
+
+	
+	<!--附件上传配置-->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+	
+
+</beans>
