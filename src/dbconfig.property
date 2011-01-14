@@ -1,0 +1,2 @@
+url =jdbc:oracle:thin:@<ip>:<port>:<dbname>
+driver=oracle.jdbc.driver.OracleDriver
