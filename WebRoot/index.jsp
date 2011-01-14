@@ -1,26 +1,37 @@
-<%@ page language="java" import="java.util.*" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'index.jsp' starting page</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-  </head>
-  
-  <body>
-    caonima. <br>
-  </body>
+
+  1111
+ <body>
+ <form method="post" action="<%=path%>/login.do?method=login">
+  <table>
+  <tr>
+	<td>ip地址:</td>
+	<td><input type="text" name="ip" value="172.16.40.26"></td>
+  </tr>
+  <tr>
+	<td>端口号:</td>
+	<td><input type="text" name="port" value="1521"></td>
+  </tr>
+  <tr>
+	<td>sid:</td>
+	<td><input type="text" name="sid" value="orcl"></td>
+  </tr>
+  <tr>
+	<td>用户名:</td>
+	<td><input type="text" name="username" value="scott"></td>
+  </tr>
+    <tr>
+	<td>密码:</td>
+	<td><input type="password" name="password" value="tiger"></td>
+  </tr>
+  </table>
+  <input type="reset" value="重置"> <input type="submit" value="提交">
+  </form>
+ </body>
 </html>
