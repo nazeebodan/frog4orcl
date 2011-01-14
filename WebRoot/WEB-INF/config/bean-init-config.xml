@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- 初始化开始 -->
+	<bean id="initBiz"
+		class="com.frog4orcl.business.init.biz.impl.InitBizImpl">
+		<property name="initDao">
+			<ref bean="initDao" />
+		</property>
+	</bean>
+	<bean id="initDao"
+		class="com.frog4orcl.business.init.dao.impl.InitDaoImpl">
+	</bean>
+	<!-- 初始化结束 -->
+</beans>

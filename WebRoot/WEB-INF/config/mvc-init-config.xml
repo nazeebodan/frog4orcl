@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="UrlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/login.do">init</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="init"
+		class="com.frog4orcl.business.init.web.InitAction">
+		<property name="methodNameResolver">
+			<ref bean="paraMethodResolver" />
+		</property>
+		<property name="loginSuc">
+			<value>/jsp/init/test1</value>
+		</property>
+		<property name="test2">
+			<value>/jsp/init/test2</value>
+		</property>
+		<property name="errorJsp">
+			<value>/error</value>
+		</property>
+		<property name="initBiz">
+			<ref bean="initBiz" />
+		</property>
+	</bean>
+
+</beans>

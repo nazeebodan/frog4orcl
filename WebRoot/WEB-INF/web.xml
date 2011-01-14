@@ -6,7 +6,9 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-			/WEB-INF/config/mvc-core-config.xml
+			/WEB-INF/config/mvc-core-config.xml,
+			/WEB-INF/config/mvc-init-config.xml,
+			/WEB-INF/config/bean-init-config.xml
 		</param-value>
 	</context-param>
 
@@ -24,7 +26,9 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				/WEB-INF/config/mvc-core-config.xml
+				/WEB-INF/config/mvc-core-config.xml,
+				/WEB-INF/config/mvc-init-config.xml,
+				/WEB-INF/config/bean-init-config.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
