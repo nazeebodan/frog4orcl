@@ -7,26 +7,25 @@ package com.frog4orcl.framework.exception;
  * @说明: 
  * @author: dandan
  * @email: xrzp_dh@yahoo.com.cn
- * @create: Jan 14, 2011 3:25:00 PM
+ * @create: Jan 19, 2011 10:23:37 AM
  * @version: 1.0
  */
-@Deprecated
-public class SessionIsNullException extends RuntimeException{
+public class CheckLoginException extends RuntimeException{
 private static final long serialVersionUID = 1L;
 	
-	public SessionIsNullException(){
+	public CheckLoginException(){
 		
 	}
 
-	public SessionIsNullException(String message) {
+	public CheckLoginException(String message) {
 		super(message);
 	}
 
-	public SessionIsNullException(Throwable cause) {
+	public CheckLoginException(Throwable cause) {
 		this(cause.toString(), cause);
 	}
 
-	public SessionIsNullException(String message, Throwable cause) {
+	public CheckLoginException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

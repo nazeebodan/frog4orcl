@@ -83,13 +83,9 @@ public class InitAction extends Frog4orclBaseMultiActionController {
 	 */
 	public ModelAndView test(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 		ProcessResult<String> result = new ProcessResult<String>();
-		if (!dba.isSuccess()) {
-			result.setMessage(dba.getMessage());
-			return sendErrorjsp(request, response, result);
-		}
 		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			ProcessResult<TableInfo> test2 = this.initBiz.test2(request,
 					response, dba.getData());
 			request.setAttribute(SystemConstant.OBJECT_DATA, test2);
