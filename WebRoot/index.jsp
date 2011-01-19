@@ -1,13 +1,19 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@page import="com.frog4orcl.framework.util.SystemConstant"%>
 <%
 String path = request.getContextPath();
+String message = (String)request.getAttribute(SystemConstant.INDEX_MSG);
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 
-  1111
  <body>
+ <div>
+ <%if(message!=null){
+ 	out.println(message);		
+ } %>
+ </div>
  <form method="post" action="<%=path%>/login.do?method=login">
   <table>
   <tr>
