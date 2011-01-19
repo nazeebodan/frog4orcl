@@ -18,7 +18,7 @@
 			<ref bean="paraMethodResolver" />
 		</property>
 		<property name="loginSuc">
-			<value>/jsp/init/test1</value>
+			<value>/jsp/init/indexframe</value>
 		</property>
 		<property name="test2">
 			<value>/jsp/init/test2</value>
