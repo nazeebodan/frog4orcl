@@ -50,16 +50,24 @@ public class DBManagerImpl implements DBManager {
 
 	public DBManagerImpl(Map<String, String> parameter)
 			throws ClassNotFoundException, SQLException {
-		Properties prop = DBProperties.getInstance().getDBConfig();
+		
+		
 
 		String ip = parameter.get("ip");
 		String port = parameter.get("port");
 		String username = parameter.get("username");
 		String password = parameter.get("password");
 		String sid = parameter.get("sid");
-
-		String url = prop.getProperty("url");
-		String driver = prop.getProperty("driver");
+		String url = "";
+		String driver = "";
+		try{
+			Properties prop = DBProperties.getInstance().getDBConfig();
+			url = prop.getProperty("url");
+			driver = prop.getProperty("driver");
+		}catch (Exception e) {
+			log.error("Load db config fail:" + e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
 
 		url = url.replaceAll("<ip>", ip).replaceAll("<port>", port).replaceAll(
 				"<dbname>", sid);

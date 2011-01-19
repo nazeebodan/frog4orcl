@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
+import com.frog4orcl.framework.exception.DatabaseException;
+
 /**
  * @说明: 读取配置文件
  * @author: dandan
@@ -24,7 +26,7 @@ public class DBProperties {
 
 	private static Logger logger = Logger.getLogger(DBProperties.class);
 	// 配置文件
-	public static final String CONF_FILE_PATH = "/dbconfig.property";
+	public static final String CONF_FILE_PATH = "/dbconfig.properties";
 	
 	private static DBProperties instance;
 
@@ -64,17 +66,17 @@ public class DBProperties {
 			// Map.Entry<Object, Object> entry = it.next();
 			// System.out.println(entry.getKey() + "||" + entry.getValue());
 			// }
+			return prop;
 		} catch (Exception e) {
-			logger.error("初始化DB配置文件失败:" + e);
-			e.printStackTrace();
+			logger.error("init DB config fail:" + e);
+			throw new DatabaseException(e.getMessage());
 		} finally {
 			try {
 				input.close();
 			} catch (IOException e) {
-				logger.error("初始化DB配置文件,关闭输入流失败:" + e);
-				e.printStackTrace();
+				logger.error("init DB config,close inputstream fail:" + e);
+				throw new DatabaseException(e.getMessage());
 			}
 		}
-		return prop;
 	}
 }
