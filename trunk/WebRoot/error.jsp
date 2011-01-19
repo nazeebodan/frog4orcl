@@ -12,6 +12,12 @@ String message = (String)request.getAttribute(SystemConstant.ERR_MSG_JSP);
   </head>
   
   <body>
-    <%=message %><br>
+  <table >
+  	<tr style="text-align: center; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold">
+  		<td nowrap="nowrap">
+  			<%=message %>
+  		</td>
+  	</tr>
+  </table>
   </body>
 </html>
