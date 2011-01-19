@@ -12,11 +12,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <br>
     <form method="post" action="<%=path%>/login.do?method=test">
-    <textarea name="sqlText" rows="10" cols="50"></textarea>
-    <br>
-    <br>
-    <br>
-     <input type="submit" value="提交">
+
+    <table>
+    	<tr>
+    		<textarea name="sqlText" rows="20" cols="80"></textarea>
+    	</tr>
+    	<br>
+    	<tr align="center">
+    		<input type="submit" value="提交">
+    	</tr>
+    </table>
+     
     </form>
   </body>
 </html>
