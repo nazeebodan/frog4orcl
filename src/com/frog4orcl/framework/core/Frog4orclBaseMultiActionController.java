@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.frog4orcl.framework.core.db.DBManagerImpl;
+import com.frog4orcl.framework.exception.CheckLoginException;
 import com.frog4orcl.framework.exception.DatabaseException;
 import com.frog4orcl.framework.exception.SessionIsNullException;
 import com.frog4orcl.framework.util.SystemConstant;
@@ -30,37 +31,49 @@ public class Frog4orclBaseMultiActionController extends MultiActionController {
 	private String errorJsp;
 
 	public ProcessResult<DBManagerImpl> checkLogin(HttpServletRequest request) {
-		HttpSession session = request.getSession();
-		if (session == null) {
-			logger.error("session is null");
-			throw new SessionIsNullException("session is null");
+		try{
+			HttpSession session = request.getSession();
+			if (session == null) {
+				logger.error("session is null");
+				throw new CheckLoginException("session is null");
+			}
+			ProcessResult<DBManagerImpl> result = current(session);
+			result.setSuccess(true);
+			return result;
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new CheckLoginException(e.getMessage());
 		}
-		ProcessResult<DBManagerImpl> result = current(session);
-		result.getData().getConnection();
-
-		if (result == null) {
-			logger.error("dbconnect is null!");
-			throw new DatabaseException("dbconnect is null!");
-		}
-		result.setSuccess(true);
-		return result;
+		
 	}
 	
 	
 	
 	
 	public ProcessResult<DBManagerImpl> current(HttpSession sess) {
-		Object obj = sess.getAttribute(SystemConstant.LOGIN_SUC_KEY);
-		if (obj == null) {
-			return null;
-		} else {
-			return (ProcessResult<DBManagerImpl>) obj;
+		try{
+			Object obj = sess.getAttribute(SystemConstant.LOGIN_SUC_KEY);
+			if (obj == null) {
+				throw new CheckLoginException("dbconnect is null!");
+			} else {
+				return (ProcessResult<DBManagerImpl>) obj;
+			}
+		}catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new CheckLoginException(e.getMessage());
 		}
+		
 	}
 	
 	public ModelAndView sendErrorjsp(HttpServletRequest request,
 		    HttpServletResponse response,ProcessResult<String> result) {
 		request.setAttribute(SystemConstant.ERR_MSG_JSP, result.getMessage());
+		return new ModelAndView(this.getErrorJsp());
+	}
+	
+	public ModelAndView sendErrorjsp(HttpServletRequest request,
+		    HttpServletResponse response,String message) {
+		request.setAttribute(SystemConstant.ERR_MSG_JSP, message);
 		return new ModelAndView(this.getErrorJsp());
 	}
 

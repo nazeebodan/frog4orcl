@@ -806,7 +806,7 @@ public class DBManagerImpl implements DBManager {
 			return getTableInfoByResultSet(rs);
 		}catch (Exception e) {
 			log.error("getTableInfoByResultSet 执行失败:", e);
-			throw new DatabaseException("getTableInfoByResultSet 执行失败:"+e.getMessage());
+			throw new DatabaseException(e.getMessage());
 		}finally{
 			if(rs!=null){
 				try {

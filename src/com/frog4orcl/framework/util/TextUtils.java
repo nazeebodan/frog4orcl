@@ -3,8 +3,6 @@
  */
 package com.frog4orcl.framework.util;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Date;
@@ -13,8 +11,10 @@ import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.frog4orcl.framework.exception.TextFormatException;
+
 /**
- * @说明: 
+ * @说明:
  * @author: dandan
  * @email: xrzp_dh@yahoo.com.cn
  * @create: Jan 12, 2011 6:19:07 PM
@@ -34,7 +34,8 @@ public class TextUtils {
 		String[] tags = new String[] { "<html>", "<head>", "<title>",
 				"<script", "<meta", "<link", "<body", "<table", "<tr", "<td",
 				"<form", "<img", "<input", "<frame", "<iframe", "<frameset",
-				"<hr", "<dd", "<dl", "<dt", "<dir", "<ll", "<li", "<ul","<span" };
+				"<hr", "<dd", "<dl", "<dt", "<dir", "<ll", "<li", "<ul",
+				"<span" };
 
 		content = content.toLowerCase();
 		for (String tag : tags) {
@@ -46,9 +47,9 @@ public class TextUtils {
 		return false;
 	}
 
-
 	/**
 	 * 日期解析
+	 * 
 	 * @param date
 	 * @param formats
 	 * @return
@@ -66,5 +67,27 @@ public class TextUtils {
 		}
 	}
 
+	public static String checkSuffix(String url) {
+		String url2 = "";
+		if (url == null || url.equals("")) {
+			throw new TextFormatException("url为空!");
+		}
+		int pos = url.lastIndexOf("/");
+		if (pos == -1) {
+			pos = url.lastIndexOf("\\");
+		}
+		if (pos != -1) {
+			url2 = url.substring(pos + 1);
+		} else {
+			url2 = url;
+		}
+		String[] test1 = url2.split("\\.");
+		if (test1.length > 2) {
+			throw new TextFormatException("url:" + url2
+					+ ",格式不对,含有2个或2个以上'.'后缀");
+		} else {
+			return test1[test1.length - 1];
+		}
+	}
 
 }
