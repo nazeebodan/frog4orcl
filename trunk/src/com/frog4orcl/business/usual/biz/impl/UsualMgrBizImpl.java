@@ -34,14 +34,30 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 	public ProcessResult<TableInfo> queryInitParameter(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
+		String parameterName = request.getParameter("parameterName");
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT T.NAME AS 参数名,");
 		sql.append("T.VALUE AS 参数值,");
 		sql.append("T.TYPE AS 参数类型,");
 		sql.append("T.ISDEFAULT AS 是否缺省值");
 		sql.append(" FROM V$PARAMETER T");
+		
 		try{
-			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, sql.toString());
+			if(parameterName!=null&&!parameterName.equals("")){
+				parameterName = parameterName.trim();
+//				sql.append(" WHERE T.NAME LIKE ?");
+//				dba.setSQL(sql.toString());
+//				StringBuffer tmp = new StringBuffer();
+//				tmp.append("'%").append(parameterName).append("%'");
+//				dba.setString(1, tmp.toString());
+				
+				sql.append(" WHERE T.NAME LIKE '%").append(parameterName).append("%'");
+				dba.setSQL(sql.toString());
+			}else{
+				dba.setSQL(sql.toString());
+			}
+			
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
 			return ti;
 		}catch (Exception e) {
 			logger.error(e.getMessage());

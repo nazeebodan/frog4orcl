@@ -25,7 +25,76 @@ public interface InitBiz {
 	 * @param response
 	 * @return
 	 */
-	public ProcessResult<DBManagerImpl> login(HttpServletRequest request,HttpServletResponse response);
+	public ProcessResult<DBManagerImpl> login(HttpServletRequest request,
+			HttpServletResponse response);
+
+	/**
+	 * 测试用
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> test2(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba);
+
+	/**
+	 * 获取数据库信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> getDataBaseInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba);
 	
-	public ProcessResult<TableInfo> test2(HttpServletRequest request,HttpServletResponse response,DBManagerImpl dba);
+	/**
+	 * 获取实例信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> getInstanceInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba);
+	
+	/**
+	 * 获取监听信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> getListenerInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba);
+	
+	/**
+	 * 获取数据库版本
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> getBannerInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba);
+	
+	/**
+	 * 获取操作系统信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> getOsInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba);
+	
+	/**
+	 * 获取告警信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> getAlertInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba); 
 }

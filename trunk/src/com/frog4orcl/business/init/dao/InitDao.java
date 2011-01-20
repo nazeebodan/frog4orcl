@@ -23,4 +23,8 @@ public interface InitDao {
 	
 	public ProcessResult<TableInfo> test2(DBManagerImpl dba,String sql) throws DatabaseException;
 	
+	public ProcessResult<TableInfo> query(DBManagerImpl dba,String sql) throws DatabaseException;
+	
+	public ProcessResult<TableInfo> query(DBManagerImpl dba) throws DatabaseException;
+
 }

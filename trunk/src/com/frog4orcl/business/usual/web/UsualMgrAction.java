@@ -50,9 +50,9 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 		ProcessResult<String> result = new ProcessResult<String>();
 		try {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
-			ProcessResult<TableInfo> test2 = this.usualMgrBiz.queryInitParameter(request,
+			ProcessResult<TableInfo> ti = this.usualMgrBiz.queryInitParameter(request,
 					response, dba.getData());
-			request.setAttribute(SystemConstant.OBJECT_DATA, test2);
+			request.setAttribute(SystemConstant.OBJECT_DATA, (ProcessResult<TableInfo>)ti);
 			return new ModelAndView(this.getInitParameterUrl());
 		} catch (Exception e) {
 			result.setMessage(e.getMessage());
