@@ -47,6 +47,15 @@ public class DBManagerImpl implements DBManager {
 	private transient Connection conn;
 	private PreparedStatement pstmtSql;
 	protected String executeSql;
+	private String loginUser;
+
+	public String getLoginUser() {
+		return loginUser;
+	}
+
+	public void setLoginUser(String loginUser) {
+		this.loginUser = loginUser;
+	}
 
 	public DBManagerImpl(Map<String, String> parameter)
 			throws ClassNotFoundException, SQLException {
@@ -473,7 +482,6 @@ public class DBManagerImpl implements DBManager {
 			throw new DatabaseException("未设置可执行之sql语句");
 		}
 		try {
-			// this.addParameterValue(parameterIndex, x);
 			this.pstmtSql.setString(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置字符串参数失败:", ex);

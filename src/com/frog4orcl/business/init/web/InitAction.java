@@ -25,16 +25,16 @@ import com.frog4orcl.framework.util.SystemConstant;
 public class InitAction extends Frog4orclBaseMultiActionController {
 
 	private InitBiz initBiz;
-	private String loginSuc;
+	private String loginSuc;// 登陆成功的首页
+	private String indexPage;// 首页
+	private String loingSucInitPage;//登录成功的首页的初始化页面
 
-	private String test2;
-
-	public String getTest2() {
-		return test2;
+	public String getLoingSucInitPage() {
+		return loingSucInitPage;
 	}
 
-	public void setTest2(String test2) {
-		this.test2 = test2;
+	public void setLoingSucInitPage(String loingSucInitPage) {
+		this.loingSucInitPage = loingSucInitPage;
 	}
 
 	public void setInitBiz(InitBiz initBiz) {
@@ -70,30 +70,61 @@ public class InitAction extends Frog4orclBaseMultiActionController {
 			pr.setMessage(e.getMessage());
 			return sendErrorjsp(request, response, pr);
 		}
-
 	}
 
 	/**
-	 * 测试1
+	 * 退出登陆
 	 * 
 	 * @param request
 	 * @param response
 	 * @return
 	 * @throws Exception
 	 */
-	public ModelAndView test(HttpServletRequest request,
+	public ModelAndView exit(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		request.getSession().removeAttribute(SystemConstant.LOGIN_SUC_KEY);
+		return new ModelAndView(this.getIndexPage());
+	}
+
+	/**
+	 * 初始化界面
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView initIndex(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		ProcessResult<String> result = new ProcessResult<String>();
 		try {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
-			ProcessResult<TableInfo> test2 = this.initBiz.test2(request,
-					response, dba.getData());
-			request.setAttribute(SystemConstant.OBJECT_DATA, test2);
-			return new ModelAndView(this.getTest2());
+			ProcessResult<TableInfo> init_dbInfo = this.initBiz
+					.getDataBaseInfo(request, response, dba.getData());
+			ProcessResult<TableInfo> init_bannerInfo = this.initBiz
+					.getBannerInfo(request, response, dba.getData());
+			ProcessResult<TableInfo> init_instanceInfo = this.initBiz
+					.getInstanceInfo(request, response, dba.getData());
+			ProcessResult<TableInfo> init_osInfo = this.initBiz.getOsInfo(
+					request, response, dba.getData());
+
+			request.setAttribute("init_dbInfo", init_dbInfo);
+			request.setAttribute("init_bannerInfo", init_bannerInfo);
+			request.setAttribute("init_instanceInfo", init_instanceInfo);
+			request.setAttribute("init_osInfo", init_osInfo);
+			return new ModelAndView(this.getLoingSucInitPage());
 		} catch (Exception e) {
 			result.setMessage(e.getMessage());
 			return sendErrorjsp(request, response, result);
 		}
+	}
+
+	public String getIndexPage() {
+		return indexPage;
+	}
+
+	public void setIndexPage(String indexPage) {
+		this.indexPage = indexPage;
 	}
 
 }

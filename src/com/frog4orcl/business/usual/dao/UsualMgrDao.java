@@ -17,4 +17,6 @@ import com.frog4orcl.framework.exception.DatabaseException;
  */
 public interface UsualMgrDao {
 	public ProcessResult<TableInfo> query(DBManagerImpl dba,String sql) throws DatabaseException;
+	
+	public ProcessResult<TableInfo> query(DBManagerImpl dba) throws DatabaseException;
 }
