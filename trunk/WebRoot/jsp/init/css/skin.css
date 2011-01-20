@@ -1,21 +1,3 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@page import="com.frog4orcl.framework.util.SystemConstant"%>
-<%
-String path = request.getContextPath();
-String username = request.getParameter("username");
- %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-<title></title>
-<script language=JavaScript>
-function logout(){
-	if (confirm("您确定要退出控制面板吗？"))
-	parent.window.location.href = "<%=path%>/login.do?method=exit";
-}
-</script>
-<style>
 .login_top_bg {
 	background-image: url(login-top-bg.gif);
 	background-repeat: repeat-x;
@@ -70,7 +52,7 @@ function logout(){
 	text-decoration: none;
 	height: 38px;
 	width: 100%;
-	position: 固定;
+	position: �̶�;
 	line-height: 38px;
 }
 .login_txt_bt {
@@ -81,7 +63,7 @@ function logout(){
 	font-weight: bold;
 }
 .admin_topbg {
-	background-image: url(<%=path%>/jsp/init/images/top-right.gif);
+	background-image: url(top-right.gif);
 	background-repeat: repeat-x;
 }
 .txt_bt {
@@ -103,7 +85,7 @@ function logout(){
 	height: 18px;
 	width: 100%;
 	overflow: hidden;
-	position: 固定;
+	position: �̶�;
 }
 
 .left_bt {
@@ -240,25 +222,3 @@ a:visited {
 	list-style-type: none;
 	list-style-image: none;
 }
-</style>
-
-</head>
-<body leftmargin="0" topmargin="0">
-<table width="100%" height="64" border="0" cellpadding="0" cellspacing="0" class="admin_topbg">
-  <tr>
-    <td width="61%" height="64"><img src="images/logo.gif" width="262" height="64"></td>
-    <td width="39%" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tr>
-        <td width="74%" height="38" class="admin_txt">当前登录用户为：<b><%=username %></b> </td>
-        <td width="22%"><a href="#" onClick="logout();"><img src="images/out.gif" alt="安全退出" width="46" height="20" border="0"></a></td>
-        <td width="4%">&nbsp;</td>
-      </tr>
-      <tr>
-        <td height="19" colspan="3">&nbsp;</td>
-        </tr>
-    </table></td>
-  </tr>
-</table>
-</body>
-</html>
-
