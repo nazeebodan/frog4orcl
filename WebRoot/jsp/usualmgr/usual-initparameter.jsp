@@ -1,162 +1,65 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@page import="com.frog4orcl.framework.core.ProcessResult"%>
-<%@page import="com.frog4orcl.framework.util.SystemConstant"%>
-<%@page import="com.frog4orcl.framework.core.db.TableInfo"%>
-<%@page import="com.frog4orcl.framework.core.db.TableHeaderInfo"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+
 <%
 String path = request.getContextPath();
-ProcessResult<TableInfo> result = (ProcessResult<TableInfo>)request.getAttribute(SystemConstant.OBJECT_DATA);
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title></title>
 <link href="<%=path %>/jsp/init/css/all.css" rel="stylesheet" type="text/css">
-  <body>
-    <%
-    TableInfo ti = result.getData();
-    if(ti!=null&&ti.getColumns()!=null){
-    			out.println("<table>");
-				out.println("<tr style=\"text-align: center; COLOR: #0076C8; BACKGROUND-COLOR: #F4FAFF; font-weight: bold\">");
-				for(TableHeaderInfo column: ti.getColumns()){
-					out.println("<td nowrap=\"nowrap\">");
-					out.print(column.getName());
-					out.println("</td>");
-				}
-				out.println("</tr>");
-				List<Map<String, Object>> rows = ti.getData().getRows();
-				if(rows!=null){
-					for(Map<String, Object> map:rows ){
-						out.println("<tr bgcolor='#F4FAFE'>");
-						for(TableHeaderInfo column: ti.getColumns()){
-							Object obj = map.get(column.getName());
-							if(obj==null){
-								out.println("<td nowrap=\"nowrap\" bgcolor=\"red\">");
-								out.print(obj);
-								out.println("</td>");
-							}else{
-								out.println("<td nowrap=\"nowrap\">");
-								out.print(obj);
-								out.println("</td>");
-							}
-							
-						}
-						out.println("</tr>");
-					}
-				}
-				out.println("</table>");
-			}
-     %>
-     <div id="center-column">
+</head>
+<body>
+<form method="post" action="<%=path%>/usualMgr.do?method=queryInitParameter">
+<div id="center-column">
 			<div class="top-bar">
 				<h1>Contents</h1>
-				<div class="breadcrumbs"><a href="#">Contents</a></div>
+				<div class="breadcrumbs"></div>
 			</div><br />
 		  <div class="select-bar">
 		    <label>
-		    <input type="text" name="textfield" />
+		    <span class="breadcrumbs">参数名:
+		    <input type="text" name="parameterName" />
 		    </label>
 		    <label>
 			<input type="submit" name="Submit" value="Search" />
 			</label>
+			</span>
 		  </div>
-	<div class="table">
+<div class="table">
 				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
-				<img src="<%=path %>/jsp/init/images/bg-th-right.gif" width="7" height="7" alt="" class="right" />
 				<table class="listing" cellpadding="0" cellspacing="0">
-				<tr>
-				<%
-    				TableInfo ti = result.getData();
-				    if(ti!=null&&ti.getColumns()!=null){
-				        int size = ti.getColumns().size();
-				        int i=0;
-		    			for(TableHeaderInfo column: ti.getColumns()){
-		    			i++;
-		    			String headerName = column.getName();
-		    	%>
-		    			<%if(i==0){ %>
-						<th class="first"><%=headerName %></th>
-						<%}else if(i==size){ %>
-						<th class="last"><%=headerName %></th>
-						<% }else{%>
-						<th><%=headerName %></th>
-						<%} %>
-					
-				<%
-						}
-					}
-				 %>
-				 </tr>
-					
 					<tr>
-						<td class="first style1">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr class="bg">
-						<td class="first style2">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr>
-						<td class="first style3">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr class="bg">
-						<td class="first style1">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr>
-						<td class="first style2">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr class="bg">
-						<td class="first style3">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr>
-						<td class="first style4">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
+						<c:if test="${OBJECT_DATA.data!= null}">
+							<c:forEach var="columns" items="${OBJECT_DATA.data.columns}" varStatus="s">
+								<c:if test="${s.first}">
+									<th class="first"><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${!s.first&&!s.last}">
+									<th><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${s.last}">
+									<th class="last"><c:out value="${columns.name}"/></th>
+								</c:if>
+								
+							</c:forEach>
+						</c:if>						
+					</tr>					
+					<c:if test="${OBJECT_DATA.data!=null}">
+						<c:if test="${OBJECT_DATA.data.data!=null}">
+							<c:forEach var="rowMap" items="${OBJECT_DATA.data.data.rows}">
+							<tr>
+								<c:forEach var="columns" items="${OBJECT_DATA.data.columns}" >
+									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
+								</c:forEach>
+							</tr>
+							</c:forEach>
+						</c:if>
+					</c:if>
 				</table>
 				<div class="select">
 					<strong>Other Pages: </strong>
@@ -165,6 +68,7 @@ ProcessResult<TableInfo> result = (ProcessResult<TableInfo>)request.getAttribute
 					</select>
 			  </div>
 			</div>
+			</form>
 </body>
-  </body>
 </html>
+

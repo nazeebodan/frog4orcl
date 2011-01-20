@@ -303,7 +303,8 @@ function doit(url){
         </table>
 
         <ul class="MM">
-          <li><a href="#" onclick="javascript:doit('/login.do?method=test');" >初始化参数</a></li>
+          <li><a href="#" onclick="javascript:doit('/init.do?method=initIndex');" >首页</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryInitParameter');" >初始化参数</a></li>
           <li><a href="#" target="I2">SGA组件</a></li>
           <li><a href="#" target="I2">表空间</a></li>
           <li><a href="#" target="I2">控制文件</a></li>
@@ -384,7 +385,7 @@ function doit(url){
 
 		);
 
-		//myAccordion.showThisHideOpen(contents[0]);
+		myAccordion.showThisHideOpen(contents[0]);
 
 	</script>
 

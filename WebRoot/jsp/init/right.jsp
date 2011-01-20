@@ -1,7 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
+
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -15,109 +16,146 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <div id="center-column">
 			<div class="top-bar">
-				<a href="#" class="button">ADD NEW </a>
+				<a href="#" class="button"> </a>
 				<h1>Contents</h1>
-				<div class="breadcrumbs"><a href="#">Homepage</a> / <a href="#">Contents</a></div>
+				<div class="breadcrumbs"></div>
 			</div><br />
 		  <div class="select-bar">
 		    <label>
-		    <input type="text" name="textfield" />
 		    </label>
 		    <label>
-			<input type="submit" name="Submit" value="Search" />
 			</label>
 		  </div>
-<div class="table">
+		  <br /><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>数据库信息:</b><div class="table">
 				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
-				<img src="<%=path %>/jsp/init/images/bg-th-right.gif" width="7" height="7" alt="" class="right" />
 				<table class="listing" cellpadding="0" cellspacing="0">
 					<tr>
-						<th class="first" width="177">Header Here</th>
-						<th>Header</th>
-						<th>Head</th>
-						<th>Header</th>
-						<th>Header</th>
-						<th>Head</th>
-						<th>Header</th>
-						<th class="last">Head</th>
-					</tr>
-					<tr>
-						<td class="first style1">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr class="bg">
-						<td class="first style2">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr>
-						<td class="first style3">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr class="bg">
-						<td class="first style1">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr>
-						<td class="first style2">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr class="bg">
-						<td class="first style3">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
-					<tr>
-						<td class="first style4">- Lorem Ipsum </td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td class="last"></td>
-					</tr>
+						<c:if test="${init_dbInfo.data!= null}">
+							<c:forEach var="columns" items="${init_dbInfo.data.columns}" varStatus="s">
+								<c:if test="${s.first}">
+									<th class="first"><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${!s.first&&!s.last}">
+									<th><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${s.last}">
+									<th class="last"><c:out value="${columns.name}"/></th>
+								</c:if>
+								
+							</c:forEach>
+						</c:if>						
+					</tr>					
+					<c:if test="${init_dbInfo.data!=null}">
+						<c:if test="${init_dbInfo.data.data!=null}">
+							<c:forEach var="rowMap" items="${init_dbInfo.data.data.rows}">
+							<tr>
+								<c:forEach var="columns" items="${init_dbInfo.data.columns}" >
+									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
+								</c:forEach>
+							</tr>
+							</c:forEach>
+						</c:if>
+					</c:if>
 				</table>
-				<div class="select">
-					<strong>Other Pages: </strong>
-					<select>
-						<option>1</option>
-					</select>
-			  </div>
+			</div>
+			
+			<br /> <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>Oracle及工具 Tools 版本信息:</b> <div class="table">
+				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+				<table class="listing" cellpadding="0" cellspacing="0">
+					<tr>
+						<c:if test="${init_bannerInfo.data!= null}">
+							<c:forEach var="columns" items="${init_bannerInfo.data.columns}" varStatus="s">
+								<c:if test="${s.first}">
+									<th class="first"><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${!s.first&&!s.last}">
+									<th><c:out value="${columns.name}"/></th>
+								</c:if>
+							</c:forEach>
+						</c:if>						
+					</tr>					
+					<c:if test="${init_bannerInfo.data!=null}">
+						<c:if test="${init_bannerInfo.data.data!=null}">
+							<c:forEach var="rowMap" items="${init_bannerInfo.data.data.rows}">
+							<tr>
+								<c:forEach var="columns" items="${init_bannerInfo.data.columns}" >
+									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
+								</c:forEach>
+							</tr>
+							</c:forEach>
+						</c:if>
+					</c:if>
+				</table>
+			</div>
+			
+			<br/> <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>实例信息:</b><div class="table">
+				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+				<table class="listing" cellpadding="0" cellspacing="0">
+					<tr>
+						<c:if test="${init_instanceInfo.data!= null}">
+							<c:forEach var="columns" items="${init_instanceInfo.data.columns}" varStatus="s">
+								<c:if test="${s.first}">
+									<th class="first"><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${!s.first&&!s.last}">
+									<th><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${s.last}">
+									<th class="last"><c:out value="${columns.name}"/></th>
+								</c:if>
+								
+							</c:forEach>
+						</c:if>						
+					</tr>					
+					<c:if test="${init_instanceInfo.data!=null}">
+						<c:if test="${init_instanceInfo.data.data!=null}">
+							<c:forEach var="rowMap" items="${init_instanceInfo.data.data.rows}">
+							<tr>
+								<c:forEach var="columns" items="${init_instanceInfo.data.columns}" >
+									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
+								</c:forEach>
+							</tr>
+							</c:forEach>
+						</c:if>
+					</c:if>
+				</table>
+			</div>
+			
+			<br /><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>操作系统统计信息:</b><div class="table">
+				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
+				<table class="listing" cellpadding="0" cellspacing="0">
+					<tr>
+						<c:if test="${init_osInfo.data!= null}">
+							<c:forEach var="columns" items="${init_osInfo.data.columns}" varStatus="s">
+								<c:if test="${s.first}">
+									<th class="first"><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${!s.first&&!s.last}">
+									<th><c:out value="${columns.name}"/></th>
+								</c:if>
+								<c:if test="${s.last}">
+									<th class="last"><c:out value="${columns.name}"/></th>
+								</c:if>
+								
+							</c:forEach>
+						</c:if>						
+					</tr>					
+					<c:if test="${init_osInfo.data!=null}">
+						<c:if test="${init_osInfo.data.data!=null}">
+							<c:forEach var="rowMap" items="${init_osInfo.data.data.rows}">
+							<tr>
+								<c:forEach var="columns" items="${init_osInfo.data.columns}" >
+									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
+								</c:forEach>
+							</tr>
+							</c:forEach>
+						</c:if>
+					</c:if>
+				</table>
 			</div>
 </body>
 </html>

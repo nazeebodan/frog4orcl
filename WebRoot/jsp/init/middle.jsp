@@ -42,7 +42,7 @@ function switchSysBar(){
 		id=switchPoint title="打开/关闭左栏">3</span></td>
     <td width="5"></td>
     <td align="center" valign="top">
-      <iframe name="I2" height="100%" width="100%" frameborder="0" src="<%=path%>/jsp/init/right.jsp"> 浏览器不支持嵌入式框架，或被配置为不显示嵌入式框架。</iframe>
+      <iframe name="I2" height="100%" width="100%" frameborder="0" src="<%=path%>/init.do?method=initIndex"> 浏览器不支持嵌入式框架，或被配置为不显示嵌入式框架。</iframe>
     </td>
   </tr>
 </table>
