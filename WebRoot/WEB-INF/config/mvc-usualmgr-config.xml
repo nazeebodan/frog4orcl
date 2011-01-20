@@ -3,35 +3,28 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="initUrlMapping"
+	<bean id="usualUrlMapping"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="mappings">
 			<props>
-				<prop key="/login.do">init</prop>
-				<prop key="/init.do">init</prop>
+				<prop key="/usualMgr.do">usualMgr</prop>
 			</props>
 		</property>
 	</bean>
 
-	<bean id="init"
-		class="com.frog4orcl.business.init.web.InitAction">
+	<bean id="usualMgr"
+		class="com.frog4orcl.business.usual.web.UsualMgrAction">
 		<property name="methodNameResolver">
 			<ref bean="paraMethodResolver" />
 		</property>
 		<property name="errorJsp">
 			<value>/error</value>
 		</property>
-		<property name="loginSuc">
-			<value>/jsp/init/indexframe</value>
+		<property name="initParameterUrl">
+			<value>/jsp/usualmgr/usual-initparameter</value>
 		</property>
-		<property name="indexPage">
-			<value>/index</value>
-		</property>
-		<property name="loingSucInitPage">
-			<value>/jsp/init/right</value>
-		</property>
-		<property name="initBiz">
-			<ref bean="initBiz" />
+		<property name="usualMgrBiz">
+			<ref bean="usualMgrBiz" />
 		</property>
 	</bean>
 

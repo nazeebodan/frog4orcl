@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!--日常管理的配置开始 -->
+	<bean id="usualMgrBiz"
+		class="com.frog4orcl.business.usual.biz.impl.UsualMgrBizImpl">
+		<property name="usualMgrDao">
+			<ref bean="usualMgrDao" />
+		</property>
+	</bean>
+	<bean id="usualMgrDao"
+		class="com.frog4orcl.business.usual.dao.impl.UsualMgrDaoImpl">
+	</bean>
+	<!-- 日常管理的配置结束 -->
+</beans>
