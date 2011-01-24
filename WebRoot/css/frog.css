@@ -1,0 +1,64 @@
+/* CSS Document */
+
+/* CSS Document */
+
+/*-------------base----------------*/
+	body{
+		width:94%;
+		margin-left:3%; 
+		margin-top:0; 
+		}
+				
+/*---------reset--------*/
+	a{
+		text-decoration: none;  
+		color:#000088;
+		}	
+	a:hover{
+		background-color:#CCFFFF;
+	}
+	img{
+		border:0px; 
+		}
+	li{
+		list-style-type:none; 
+	}
+	
+
+/*-------------login----------------*/
+	#login{
+		background:url(../image/login/bg-login.gif);
+		font-size:15px;
+		color:white;
+		text-align:center;
+	}
+	#loginlogo{
+		background:#000000;
+		padding:20px 0px 10px 0px;
+		margin-bottom:20px;		
+	}
+	#loginmsg{
+		background:#000000;
+		padding:8px 0 8px 0;
+		width:210px;
+		margin:0 auto;
+	}
+	#loginform{
+		margin-top:10px;
+	}
+	#loginform tr{
+		height:30px;
+		text-align:right;
+	}
+	#loginform input{
+		padding: 3px;
+		border: 1px solid #d5d5d5;
+		color: #333333;
+	}
+	#loginform .button{
+		background:url(../image/login/bg-button-green.gif);
+		border:0;
+		color:#FFFFFF;
+		margin:8px 5px 0 0;
+		width:70px;
+	}
