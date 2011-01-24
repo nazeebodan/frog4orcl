@@ -60,12 +60,18 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			DBManagerImpl dba) {
 		String parameterName = request.getParameter("parameterName");
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.NAME AS 参数名,");
-		sql.append("T.VALUE AS 参数值,");
-		sql.append("T.TYPE AS 参数类型,");
-		sql.append("T.ISDEFAULT AS 是否缺省值");
-		sql.append(" FROM V$PARAMETER T");
+//		sql.append("SELECT T.NAME AS 参数名,");
+//		sql.append("T.VALUE AS 参数值,");
+//		sql.append("T.TYPE AS 参数类型,");
+//		sql.append("T.ISDEFAULT AS 是否缺省值");
+//		sql.append(" FROM V$PARAMETER T");
 
+		sql.append("SELECT T.NAME,");
+		sql.append("T.VALUE,");
+		sql.append("T.TYPE,");
+		sql.append("T.ISDEFAULT");
+		sql.append(" FROM V$PARAMETER T");
+		
 		try {
 			if (parameterName != null && !parameterName.equals("")) {
 				parameterName = parameterName.trim();
@@ -125,11 +131,18 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.COMPONENT AS 组件名称,");
-		sql.append("T.CURRENT_SIZE AS \"当前值(byte)\",");
-		sql.append("T.MIN_SIZE AS \"最小值(byte)\",");
-		sql.append("T.MAX_SIZE AS \"最大值(byte)\",");
-		sql.append("T.GRANULE_SIZE AS \"粒度大小(byte)\"");
+//		sql.append("SELECT T.COMPONENT AS 组件名称,");
+//		sql.append("T.CURRENT_SIZE AS \"当前值(byte)\",");
+//		sql.append("T.MIN_SIZE AS \"最小值(byte)\",");
+//		sql.append("T.MAX_SIZE AS \"最大值(byte)\",");
+//		sql.append("T.GRANULE_SIZE AS \"粒度大小(byte)\"");
+//		sql.append(" FROM V$SGA_DYNAMIC_COMPONENTS T");
+		
+		sql.append("SELECT T.COMPONENT,");
+		sql.append("T.CURRENT_SIZE,");
+		sql.append("T.MIN_SIZE,");
+		sql.append("T.MAX_SIZE,");
+		sql.append("T.GRANULE_SIZE");
 		sql.append(" FROM V$SGA_DYNAMIC_COMPONENTS T");
 
 		try {
@@ -242,10 +255,22 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT A.TABLESPACE_NAME \"表空间名\",");
-		sql.append("TOTAL/1024/1024 表空间大小_M,FREE/1024/1024 表空间剩余大小_M,");
-		sql.append("(TOTAL - FREE)/1024/1024 表空间使用大小_M,");
-		sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 \"使用率 %\"");
+//		sql.append("SELECT A.TABLESPACE_NAME \"表空间名\",");
+//		sql.append("TOTAL/1024/1024 表空间大小_M,FREE/1024/1024 表空间剩余大小_M,");
+//		sql.append("(TOTAL - FREE)/1024/1024 表空间使用大小_M,");
+//		sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 \"使用率 %\"");
+//		sql.append(" FROM (SELECT TABLESPACE_NAME, SUM(BYTES) FREE");
+//		sql.append(" FROM DBA_FREE_SPACE");
+//		sql.append(" GROUP BY TABLESPACE_NAME) A,");
+//		sql.append("(SELECT TABLESPACE_NAME, SUM(BYTES) TOTAL");
+//		sql.append(" FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME) B");
+//		sql.append(" WHERE A.TABLESPACE_NAME = B.TABLESPACE_NAME");
+//		sql.append(" ORDER BY A.TABLESPACE_NAME");
+		
+		sql.append("SELECT A.TABLESPACE_NAME,");
+		sql.append("TOTAL/1024/1024 TOTAL_m,FREE/1024/1024 FREE_M,");
+		sql.append("(TOTAL - FREE)/1024/1024 USED_M,");
+		sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 USED_100%");
 		sql.append(" FROM (SELECT TABLESPACE_NAME, SUM(BYTES) FREE");
 		sql.append(" FROM DBA_FREE_SPACE");
 		sql.append(" GROUP BY TABLESPACE_NAME) A,");
@@ -268,11 +293,21 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT B.TABLESPACE_NAME 表空间,");
-		sql.append("B.FILE_NAME 物理文件名,B.BYTES 总字节数,");
-		sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) 已使用,");
-		sql.append("SUM(NVL(A.BYTES, 0)) 剩余,");
-		sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as \"剩余百分比(%)\"");
+//		sql.append("SELECT B.TABLESPACE_NAME 表空间,");
+//		sql.append("B.FILE_NAME 物理文件名,B.BYTES 总字节数,");
+//		sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) 已使用,");
+//		sql.append("SUM(NVL(A.BYTES, 0)) 剩余,");
+//		sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as \"剩余百分比(%)\"");
+//		sql.append(" FROM DBA_FREE_SPACE A,DBA_DATA_FILES B");
+//		sql.append(" WHERE A.FILE_ID = B.FILE_ID");
+//		sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
+//		sql.append(" ORDER BY B.TABLESPACE_NAME");
+		
+		sql.append("SELECT B.TABLESPACE_NAME,");
+		sql.append("B.FILE_NAME,B.BYTES,");
+		sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) USED,");
+		sql.append("SUM(NVL(A.BYTES, 0)) FREE,");
+		sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as \"FREE(%)\"");
 		sql.append(" FROM DBA_FREE_SPACE A,DBA_DATA_FILES B");
 		sql.append(" WHERE A.FILE_ID = B.FILE_ID");
 		sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
@@ -292,10 +327,16 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.NAME AS 控制文件名称位置,");
-		sql.append("T.IS_RECOVERY_DEST_FILE 是否在快速回复区被创建,");
-		sql.append("T.BLOCK_SIZE 块大小");
+//		sql.append("SELECT T.NAME AS 控制文件名称位置,");
+//		sql.append("T.IS_RECOVERY_DEST_FILE 是否在快速回复区被创建,");
+//		sql.append("T.BLOCK_SIZE 块大小");
+//		sql.append(" FROM V$CONTROLFILE T");
+//		
+		sql.append("SELECT T.NAME,");
+		sql.append("T.IS_RECOVERY_DEST_FILE,");
+		sql.append("T.BLOCK_SIZE");
 		sql.append(" FROM V$CONTROLFILE T");
+
 
 		try {
 			dba.setSQL(sql.toString());
@@ -311,10 +352,16 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.TYPE AS 每个section的类型,");
-		sql.append("T.RECORD_SIZE AS 每条记录占用的空间,");
-		sql.append("T.RECORDS_TOTAL AS 所能保留的最大记录数,");
-		sql.append("T.RECORDS_USED AS 当前已占用的记录数");
+//		sql.append("SELECT T.TYPE AS 每个section的类型,");
+//		sql.append("T.RECORD_SIZE AS 每条记录占用的空间,");
+//		sql.append("T.RECORDS_TOTAL AS 所能保留的最大记录数,");
+//		sql.append("T.RECORDS_USED AS 当前已占用的记录数");
+//		sql.append(" FROM V$CONTROLFILE_RECORD_SECTION T");
+		
+		sql.append("SELECT T.TYPE,");
+		sql.append("T.RECORD_SIZE,");
+		sql.append("T.RECORDS_TOTAL,");
+		sql.append("T.RECORDS_USED");
 		sql.append(" FROM V$CONTROLFILE_RECORD_SECTION T");
 
 		try {
@@ -332,10 +379,16 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			DBManagerImpl dba, Pagination page) {
 		String parameterName = request.getParameter("parameterName");
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.NAME AS 参数名,");
-		sql.append("T.VALUE AS 参数值,");
-		sql.append("T.TYPE AS 参数类型,");
-		sql.append("T.ISDEFAULT AS 是否缺省值");
+//		sql.append("SELECT T.NAME AS 参数名,");
+//		sql.append("T.VALUE AS 参数值,");
+//		sql.append("T.TYPE AS 参数类型,");
+//		sql.append("T.ISDEFAULT AS 是否缺省值");
+//		sql.append(" FROM V$PARAMETER T");
+		
+		sql.append("SELECT T.NAME,");
+		sql.append("T.VALUE,");
+		sql.append("T.TYPE,");
+		sql.append("T.ISDEFAULT");
 		sql.append(" FROM V$PARAMETER T");
 
 		try {
