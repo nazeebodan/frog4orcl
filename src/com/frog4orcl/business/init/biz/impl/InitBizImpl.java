@@ -103,11 +103,18 @@ public class InitBizImpl implements InitBiz {
 	public ProcessResult<TableInfo> getDataBaseInfo(HttpServletRequest request,
 			HttpServletResponse response, DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.DBID AS DBID,");
-		sql.append("T.CREATED AS 数据库创建时间,");
-		sql.append("T.FORCE_LOGGING AS 是否强制LOG,");
-		sql.append("T.FLASHBACK_ON AS 是否开启数据库级闪回功能,");
-		sql.append("T.PLATFORM_NAME AS 数据库所在平台信息");
+//		sql.append("SELECT T.DBID AS DBID,");
+//		sql.append("T.CREATED AS 数据库创建时间,");
+//		sql.append("T.FORCE_LOGGING AS 是否强制LOG,");
+//		sql.append("T.FLASHBACK_ON AS 是否开启数据库级闪回,");
+//		sql.append("T.PLATFORM_NAME AS 数据库所在平台信息");
+//		sql.append(" FROM V$DATABASE T");
+		
+		sql.append("SELECT T.DBID,");
+		sql.append("T.CREATED,");
+		sql.append("T.FORCE_LOGGING,");
+		sql.append("T.FLASHBACK_ON,");
+		sql.append("T.PLATFORM_NAME");
 		sql.append(" FROM V$DATABASE T");
 
 		try {
@@ -123,10 +130,16 @@ public class InitBizImpl implements InitBiz {
 	public ProcessResult<TableInfo> getInstanceInfo(HttpServletRequest request,
 			HttpServletResponse response, DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.INSTANCE_NUMBER AS 实例号,");
-		sql.append("T.INSTANCE_NAME AS 实例名,");
-		sql.append("T.HOST_NAME AS 主机名,");
-		sql.append("T.STATUS AS 状态");
+//		sql.append("SELECT T.INSTANCE_NUMBER AS 实例号,");
+//		sql.append("T.INSTANCE_NAME AS 实例名,");
+//		sql.append("T.HOST_NAME AS 主机名,");
+//		sql.append("T.STATUS AS 状态");
+//		sql.append(" FROM V$INSTANCE T");
+		
+		sql.append("SELECT T.INSTANCE_NUMBER,");
+		sql.append("T.INSTANCE_NAME,");
+		sql.append("T.HOST_NAME,");
+		sql.append("T.STATUS");
 		sql.append(" FROM V$INSTANCE T");
 
 		try {
@@ -148,8 +161,13 @@ public class InitBizImpl implements InitBiz {
 	public ProcessResult<TableInfo> getOsInfo(HttpServletRequest request,
 			HttpServletResponse response, DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-		sql.append("SELECT T.STAT_NAME AS 统计信息列表,");
-		sql.append("T.VALUE AS 统计值");
+//		sql.append("SELECT T.STAT_NAME AS 统计信息列表,");
+//		sql.append("T.VALUE AS 统计值");
+////		sql.append(", T.COMMENTS AS 说明");
+//		sql.append(" FROM V$OSSTAT T");
+		
+		sql.append("SELECT T.STAT_NAME,");
+		sql.append("T.VALUE");
 //		sql.append(", T.COMMENTS AS 说明");
 		sql.append(" FROM V$OSSTAT T");
 

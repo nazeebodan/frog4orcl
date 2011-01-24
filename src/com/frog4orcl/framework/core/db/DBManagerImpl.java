@@ -895,10 +895,10 @@ public class DBManagerImpl implements DBManager {
 			
 			StringBuffer wrapSql = new StringBuffer();
 			wrapSql.append("SELECT * FROM (");
-			wrapSql.append("SELECT A.*, ROWNUM 序号 FROM (");
+			wrapSql.append("SELECT A.*, ROWNUM RN FROM (");
 			wrapSql.append(sql);
 			wrapSql.append(") A WHERE ROWNUM <= ").append(endNum);
-			wrapSql.append(") WHERE 序号 >= ").append(beginNum);
+			wrapSql.append(") WHERE RN >= ").append(beginNum);
 			this.setSQL(wrapSql.toString());
 			
 			rs = this.executeOnlineQuery();

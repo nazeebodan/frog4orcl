@@ -5,8 +5,6 @@ package com.frog4orcl.business.init.dao.impl;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.apache.log4j.Logger;
 
 import com.frog4orcl.business.init.dao.InitDao;
@@ -24,7 +22,7 @@ import com.frog4orcl.framework.exception.DatabaseException;
  * @create: Jan 12, 2011 4:07:21 PM
  * @version: 1.0
  */
-public class InitDaoImpl extends TestCase implements InitDao {
+public class InitDaoImpl implements InitDao {
 
 	private static Logger log = Logger.getLogger(InitDaoImpl.class);
 
