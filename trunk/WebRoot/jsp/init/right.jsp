@@ -8,16 +8,14 @@ String path = request.getContextPath();
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title></title>
 <link href="<%=path %>/jsp/init/css/all.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
-<div id="center-column">
+<div id="center-column" >
 			<div class="top-bar">
 				<a href="#" class="button"> </a>
-				<h1>Contents</h1>
+				<h1>首页</h1>
 				<div class="breadcrumbs"></div>
 			</div><br />
 		  <div class="select-bar">
@@ -106,7 +104,6 @@ String path = request.getContextPath();
 								<c:if test="${s.last}">
 									<th class="last"><c:out value="${columns.name}"/></th>
 								</c:if>
-								
 							</c:forEach>
 						</c:if>						
 					</tr>					
@@ -156,6 +153,7 @@ String path = request.getContextPath();
 						</c:if>
 					</c:if>
 				</table>
+			</div>
 			</div>
 </body>
 </html>
