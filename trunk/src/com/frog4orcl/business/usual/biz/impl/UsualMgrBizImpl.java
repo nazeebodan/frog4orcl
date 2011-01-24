@@ -333,8 +333,8 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 //		sql.append(" FROM V$CONTROLFILE T");
 //		
 		sql.append("SELECT T.NAME,");
-		sql.append("T.IS_RECOVERY_DEST_FILE,");
-		sql.append("T.BLOCK_SIZE");
+		sql.append("T.IS_RECOVERY_DEST_FILE");
+//		sql.append("T.\\\");
 		sql.append(" FROM V$CONTROLFILE T");
 
 
@@ -430,6 +430,42 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		try {
 			dba.setSQL(sql.toString());
 			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryUserInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.USERNAME,T.ACCOUNT_STATUS AS STATUS,");
+		sql.append("T.DEFAULT_TABLESPACE,T.TEMPORARY_TABLESPACE");
+		sql.append(" FROM DBA_USERS T ORDER BY USERNAME");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryUserPrivInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba,Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT A.USERNAME, B.PRIVILEGE WHAT_GRANTED,B.ADMIN_OPTION");
+		sql.append(" FROM SYS.DBA_USERS A, SYS.DBA_SYS_PRIVS B");
+		sql.append(" WHERE  A.USERNAME = B.GRANTEE");
+		sql.append(" AND USERNAME NOT IN ('SYSTEM','SYS') ORDER BY 1,2");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba,page);
 			return ti;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
