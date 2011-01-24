@@ -1,12 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@page import="com.frog4orcl.framework.core.page.Pagination"%>
-<%@page import="com.frog4orcl.framework.util.SystemConstant"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> 
 
 <%
 String path = request.getContextPath();
-String parameterName = (String)request.getAttribute("parameterName");
-Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT_DATA);
+String filename1 = (String)request.getAttribute("filename1");
+String url1 = (String)request.getAttribute("url1");
+String filename2 = (String)request.getAttribute("filename2");
+String url2 = (String)request.getAttribute("url2");
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -20,20 +20,28 @@ Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT
 <form method="post" action="<%=path%>/usualMgr.do?method=queryInitParameter">
 <div id="center-column">
 			<div class="top-bar">
-				<h1>初始化参数</h1>
+				<h1>Sga</h1>
 				<div class="breadcrumbs"></div>
 			</div><br />
 		  <div class="select-bar">
 		    <label>
-		    <span class="breadcrumbs">参数名:
-		    <input type="text" name="parameterName" value="<%=parameterName %>"/>
 		    </label>
 		    <label>
-			<input type="submit" name="Submit" value="Search" />
 			</label>
 			</span>
 		  </div>
-<div class="table">
+		  <br/><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>sga 信息:</b>
+			<div class="table">
+				<img src="<%= url1 %>"width=500 height=300 border=0 usemap="<%=filename1 %>"
+			</div>
+			<br/> <br/> <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>sga各组件信息:</b>
+			<div class="table">
+				<img src="<%= url2 %>"width=500 height=300 border=0 usemap="<%=filename2 %>"
+			</div>
+			<br/> <br/> <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>sga各动态组件信息:</b><div class="table">
 				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
 				<table class="listing" cellpadding="0" cellspacing="0">
 					<tr>
@@ -64,10 +72,6 @@ Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT
 						</c:if>
 					</c:if>
 				</table>
-				<div align="right">
-					<br />
-					<%=pageObj.getToolsMenu() %>
-			  	</div>
 			</div>
 			</form>
 </body>
