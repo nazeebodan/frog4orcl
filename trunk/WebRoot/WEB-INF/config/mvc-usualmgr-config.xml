@@ -23,6 +23,15 @@
 		<property name="initParameterUrl">
 			<value>/jsp/usualmgr/usual-initparameter</value>
 		</property>
+		<property name="sgaPageUrl">
+			<value>/jsp/usualmgr/usual-sga</value>
+		</property>
+		<property name="tablespacePageUrl">
+			<value>/jsp/usualmgr/usual-tablespace</value>
+		</property>
+		<property name="controlfilePageUrl">
+			<value>/jsp/usualmgr/usual-controlfile</value>
+		</property>
 		<property name="usualMgrBiz">
 			<ref bean="usualMgrBiz" />
 		</property>
