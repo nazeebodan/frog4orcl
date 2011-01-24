@@ -30,6 +30,7 @@ import oracle.jdbc.rowset.OracleCachedRowSet;
 
 import org.apache.log4j.Logger;
 
+import com.frog4orcl.framework.core.page.Pagination;
 import com.frog4orcl.framework.exception.DatabaseException;
 import com.frog4orcl.framework.util.SQLTypeUtils;
 import com.frog4orcl.framework.util.TextUtils;
@@ -59,14 +60,12 @@ public class DBManagerImpl implements DBManager {
 
 	public DBManagerImpl(Map<String, String> parameter)
 			throws ClassNotFoundException, SQLException {
-		
-		
 
-		String ip = parameter.get("ip");
-		String port = parameter.get("port");
-		String username = parameter.get("username");
-		String password = parameter.get("password");
-		String sid = parameter.get("sid");
+		String ip = parameter.get("ip");//IP地址
+		String port = parameter.get("port");//端口
+		String username = parameter.get("username");//用户名
+		String password = parameter.get("password");//密码
+		String sid = parameter.get("sid");//sid
 		String url = "";
 		String driver = "";
 		try{
@@ -134,6 +133,7 @@ public class DBManagerImpl implements DBManager {
 			executeSql = sql;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			log.error("设置预编译语句的时候出现错误:",e);
 			throw new DatabaseException("设置预编译语句的时候出现错误！", e);
 		}
 	}
@@ -155,7 +155,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setArray(index, arrayObj);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置数组参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置数组参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -177,7 +177,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setBigDecimal(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置大数值对象失败:", ex);
-			throw new DatabaseException("为预编译对象设置大数值对象失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -198,7 +198,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setBlob(index, blobObj);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置二进制流对象失败:", ex);
-			throw new DatabaseException("为预编译对象设置二进制流对象失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -221,7 +221,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setBoolean(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置布尔值参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置布尔值参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -242,7 +242,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setByte(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置字节参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置字节参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -263,7 +263,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setBytes(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置字节数组参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置字节数组参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -284,7 +284,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setClob(i, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置大文本对象参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置大文本对象参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -306,7 +306,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setDate(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置日期参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置日期参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -329,7 +329,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setDouble(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置双精度数值参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置双精度数值参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -351,7 +351,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setFloat(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置浮点数参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置浮点数参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -373,7 +373,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setInt(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置整数参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置整数参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -395,7 +395,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setLong(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置长整数参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置长整数参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -418,7 +418,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setNull(parameterIndex, sqlType);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置字段为空失败:", ex);
-			throw new DatabaseException("为预编译对象设置字段为空失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -441,7 +441,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setObject(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置对象参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置对象参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -463,7 +463,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setShort(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置短整形参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置短整形参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -485,7 +485,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setString(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置字符串参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置字符串参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -510,7 +510,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setBinaryStream(parameterIndex, x, length);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置输入流参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置输入流参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -532,7 +532,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setTime(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置时间型参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置时间型参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -554,7 +554,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setTimestamp(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置日期戳型参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置日期戳型参数失败:", ex);
+			throw new DatabaseException( ex);
 		}
 	}
 
@@ -575,7 +575,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setURL(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置URL型参数失败:", ex);
-			throw new DatabaseException("为预编译对象设置URL型参数失败:", ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -601,7 +601,7 @@ public class DBManagerImpl implements DBManager {
 			return crs;
 		} catch (Exception ex) {
 			log.error("sql语句查询执行失败:", ex);
-			throw new DatabaseException("sql语句查询执行失败:", ex);
+			throw new DatabaseException(ex);
 		} finally {
 			try {
 				if (rs != null) {
@@ -647,7 +647,7 @@ public class DBManagerImpl implements DBManager {
 			return crs;
 		} catch (Exception ex) {
 			log.error("sql语句查询执行失败:"+ex.getMessage());
-			throw new DatabaseException("sql语句查询执行失败:"+ex.getMessage());
+			throw new DatabaseException(ex.getMessage());
 		} finally {
 			try {
 				if (rs != null) {
@@ -846,7 +846,7 @@ public class DBManagerImpl implements DBManager {
 			return getTableInfoByResultSet(rs);
 		}catch (Exception e) {
 			log.error("getTableInfoByResultSet 执行失败:", e);
-			throw new DatabaseException("getTableInfoByResultSet 执行失败:"+e.getMessage());
+			throw new DatabaseException(e.getMessage());
 		}finally{
 			if(rs!=null){
 				try {
@@ -878,4 +878,69 @@ public class DBManagerImpl implements DBManager {
 		}
 	}
 
+	/**
+	 * 获取结果集,带分页
+	 * @param page
+	 * @return
+	 */
+	public TableInfo getTableInfoByResultSet(Pagination page){
+		ResultSet rs = null;
+		try{
+			String sql = this.executeSql;
+			
+			page.init(this.getRecordsCnt(sql));
+			
+			int beginNum = page.getBeginElement();//开始的条数
+			int endNum = page.getEndElement();//结束的条数
+			
+			StringBuffer wrapSql = new StringBuffer();
+			wrapSql.append("SELECT * FROM (");
+			wrapSql.append("SELECT A.*, ROWNUM 序号 FROM (");
+			wrapSql.append(sql);
+			wrapSql.append(") A WHERE ROWNUM <= ").append(endNum);
+			wrapSql.append(") WHERE 序号 >= ").append(beginNum);
+			this.setSQL(wrapSql.toString());
+			
+			rs = this.executeOnlineQuery();
+			return getTableInfoByResultSet(rs);
+		}catch (Exception e) {
+			log.error("getTableInfoByResultSet 执行失败:", e);
+			throw new DatabaseException(e.getMessage());
+		}finally{
+			if(rs!=null){
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					log.error("getTableInfoByResultSet时,关闭rs失败:", e);
+					throw new DatabaseException(e.getMessage());
+				}
+			}
+		}
+	}
+	
+	/**
+	 * 获取SQL的记录数
+	 * @param sql
+	 * @return
+	 */
+	public int getRecordsCnt(String sql){
+		try{
+			//获取最大记录数
+			StringBuffer cntSql = new StringBuffer();
+			cntSql.append("SELECT COUNT(*) cnt FROM (");
+			cntSql.append(sql).append(")");
+			ResultSet rs = this.executeOnlineQuery(cntSql.toString());
+			
+			int cnt=0;
+			if(rs!=null){
+				while(rs.next()){
+					cnt = Integer.parseInt(String.valueOf(rs.getObject(1)));
+				}
+			}
+			return cnt;
+		}catch (Exception e) {
+			log.error("获取sql记录数失败:",e);
+			throw new DatabaseException(e.getMessage());
+		}
+	}
 }

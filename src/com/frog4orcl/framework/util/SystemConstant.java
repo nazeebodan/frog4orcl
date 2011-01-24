@@ -14,6 +14,7 @@ public class SystemConstant {
 	public static final String LOGIN_SUC_KEY = "$logsuccess$session$789";
 	public static final String ERR_MSG_JSP = "ERR_MSG_JSP";
 	public static final String OBJECT_DATA = "OBJECT_DATA";
+	public static final String PAGE_OBJECT_DATA = "PAGE_OBJECT_DATA";
 	public static final String INDEX_MSG = "INDEX_MSG";
 	public static final String LOGIN_USER_NAME = "LOGIN_USER_NAME";
 }

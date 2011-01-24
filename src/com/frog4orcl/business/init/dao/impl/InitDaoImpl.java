@@ -3,8 +3,6 @@
  */
 package com.frog4orcl.business.init.dao.impl;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -14,7 +12,6 @@ import org.apache.log4j.Logger;
 import com.frog4orcl.business.init.dao.InitDao;
 import com.frog4orcl.framework.core.ProcessResult;
 import com.frog4orcl.framework.core.db.DBManagerImpl;
-import com.frog4orcl.framework.core.db.TableHeaderInfo;
 import com.frog4orcl.framework.core.db.TableInfo;
 import com.frog4orcl.framework.exception.DatabaseException;
 
