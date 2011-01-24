@@ -270,7 +270,7 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		sql.append("SELECT A.TABLESPACE_NAME,");
 		sql.append("TOTAL/1024/1024 TOTAL_m,FREE/1024/1024 FREE_M,");
 		sql.append("(TOTAL - FREE)/1024/1024 USED_M,");
-		sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 USED_100%");
+		sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 \"USED_%\"");
 		sql.append(" FROM (SELECT TABLESPACE_NAME, SUM(BYTES) FREE");
 		sql.append(" FROM DBA_FREE_SPACE");
 		sql.append(" GROUP BY TABLESPACE_NAME) A,");
@@ -410,6 +410,26 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 
 			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba,page);
 			request.setAttribute("parameterName", TextUtils.nvl(parameterName));
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryRedoLogInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT A.GROUP#, B.BYTES/1024/1024 AS SIZE_M,");
+		sql.append("A.MEMBER, B.STATUS");
+		sql.append(" FROM V$LOGFILE A, V$LOG B");
+		sql.append(" WHERE A.GROUP# = B.GROUP#");
+		sql.append(" ORDER BY A.GROUP#,B.THREAD#");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
 			return ti;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
