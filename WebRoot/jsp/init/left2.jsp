@@ -278,36 +278,24 @@ function doit(url){
 </script>
 </head>
 
-
-
 <body>
-
 <table width="100%" height="280" border="0" cellpadding="0" cellspacing="0" bgcolor="#EEF2FB">
-
   <tr>
-
     <td width="182" valign="top"><div id="container">
-
       <h1 class="type"><a href="javascript:void(0)">日常监控模块</a></h1>
-
       <div class="content">
-
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
-
           <tr>
-
             <td><img src="<%=path%>/jsp/init/images/menu_topline.gif" width="182" height="5" /></td>
-
           </tr>
-
         </table>
 
         <ul class="MM">
           <li><a href="#" onclick="javascript:doit('/init.do?method=initIndex');" >首页</a></li>
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryInitParameter');" >初始化参数</a></li>
-          <li><a href="#" target="I2">SGA组件</a></li>
-          <li><a href="#" target="I2">表空间</a></li>
-          <li><a href="#" target="I2">控制文件</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=querySomeSgaInfo');">SGA组件</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryTablespaceInfo');">表空间</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryControlFileInfo');">控制文件</a></li>
           <li><a href="#" target="I2">日志文件</a></li>
           <li><a href="#" target="I2">表和索引</a></li>
           <li><a href="#" target="I2">用户情况</a></li>
@@ -321,17 +309,11 @@ function doit(url){
       </div>
 
       <h1 class="type"><a href="javascript:void(0)">日常告警模块</a></h1>
-
       <div class="content">
-
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
-
           <tr>
-
             <td><img src="<%=path%>/jsp/init/images/menu_topline.gif" width="182" height="5" /></td>
-
           </tr>
-
         </table>
          <ul class="MM">
           <li><a href="#" onclick="javascript:doit('/jsp/init/test1.jsp');">初始化参数</a></li>
