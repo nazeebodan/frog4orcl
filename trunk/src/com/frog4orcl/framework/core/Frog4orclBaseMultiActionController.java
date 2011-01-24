@@ -13,8 +13,6 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import com.frog4orcl.framework.core.db.DBManagerImpl;
 import com.frog4orcl.framework.exception.CheckLoginException;
-import com.frog4orcl.framework.exception.DatabaseException;
-import com.frog4orcl.framework.exception.SessionIsNullException;
 import com.frog4orcl.framework.util.SystemConstant;
 
 /**

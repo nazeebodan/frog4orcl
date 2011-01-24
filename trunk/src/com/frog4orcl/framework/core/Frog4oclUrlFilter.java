@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 
 import com.frog4orcl.framework.core.db.DBManagerImpl;
 import com.frog4orcl.framework.util.SystemConstant;
-import com.frog4orcl.framework.util.TextUtils;
 
 /**
  * @说明:

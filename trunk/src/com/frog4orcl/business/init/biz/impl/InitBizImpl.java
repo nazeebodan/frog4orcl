@@ -149,7 +149,8 @@ public class InitBizImpl implements InitBiz {
 			HttpServletResponse response, DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT T.STAT_NAME AS 统计信息列表,");
-		sql.append("T.VALUE AS 统计值, T.COMMENTS AS 说明");
+		sql.append("T.VALUE AS 统计值");
+//		sql.append(", T.COMMENTS AS 说明");
 		sql.append(" FROM V$OSSTAT T");
 
 		try {

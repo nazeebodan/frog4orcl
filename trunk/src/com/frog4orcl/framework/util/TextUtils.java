@@ -90,4 +90,84 @@ public class TextUtils {
 		}
 	}
 
+	/**
+	 * 转换int类型
+	 * 
+	 * @param parseStr
+	 * @param defaultInt
+	 * @return
+	 */
+	public final static int parseInt(String parseStr, int defaultInt) {
+		int retInt = defaultInt;
+		try {
+			retInt = Integer.parseInt(parseStr);
+		} catch (Exception ex) {
+			retInt = defaultInt;
+		}
+		return retInt;
+	}
+	
+	/**
+	 * 转换long类型
+	 * 
+	 * @param parseStr
+	 * @param defaultInt
+	 * @return
+	 */
+	public final static long parseLong(Object parseStr, long defaultLong) {
+		long retLong = defaultLong;
+		try {
+			retLong = Long.parseLong(String.valueOf(parseStr));
+		} catch (Exception ex) {
+			retLong = defaultLong;
+		}
+		return retLong;
+	}
+	
+	/**
+	 * 转换long类型
+	 * 
+	 * @param parseStr
+	 * @param defaultInt
+	 * @return
+	 */
+	public final static double parseDouble(Object parseStr, double defaultDouble) {
+		double retDouble = defaultDouble;
+		try {
+			retDouble = Double.parseDouble(String.valueOf(parseStr));
+		} catch (Exception ex) {
+			retDouble = defaultDouble;
+		}
+		return retDouble;
+	}
+
+	 /**
+     * 将null字符串转换为空字符串
+     * 
+     * @param str
+     *                需要转换的字符串
+     * @return 空字符串或者其本身
+     */
+    public final static String nvl(String str) {
+	if (str == null || str.trim().length() <= 0) {
+	    return "";
+	} else {
+	    return str.trim();
+	}
+    }
+
+    /**
+     * 将null字符串转换为0
+     * 
+     * @param str
+     *                需要转换的字符串
+     * @return 空字符串或者其本身
+     */
+    public final static String nvlNum(String str) {
+	if (str == null || str.trim().length() <= 0 || str.equals("null")) {
+	    return "0";
+	} else {
+	    return str.trim();
+	}
+    }
 }
