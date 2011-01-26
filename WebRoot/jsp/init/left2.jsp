@@ -296,14 +296,12 @@ function doit(url){
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=querySomeSgaInfo');">SGA组件</a></li>
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryTablespaceInfo');">表空间</a></li>
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryControlFileInfo');">控制文件</a></li>
-          <li><a href="#" target="I2">日志文件</a></li>
-          <li><a href="#" target="I2">表和索引</a></li>
-          <li><a href="#" target="I2">用户情况</a></li>
-          <li><a href="#" target="I2">备份情况</a></li>
-          <li><a href="#" target="I2">回滚段情况</a></li>
-          <li><a href="#" target="I2">回滚段情况</a></li>
-          <li><a href="#" target="I2">schedule/job</a></li>
-          <li><a href="#" target="I2">字符集</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryRedoLogInfo');">日志文件</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryUserInfo');">用户情况</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryBackupDataFileInfo');">备份情况</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryRollbackSegmentInfo');">回滚段情况</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryJobsInfo');">schedule/job</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryPropsServerInfo');">字符集</a></li>
           <li><a href="#" target="I2">其他</a></li>
         </ul>
       </div>
@@ -354,30 +352,17 @@ function doit(url){
       </div>
 
         <script type="text/javascript">
-
 		var contents = document.getElementsByClassName('content');
-
 		var toggles = document.getElementsByClassName('type');
-
-	
-
 		var myAccordion = new fx.Accordion(
-
 			toggles, contents, {opacity: true, duration: 400}
-
 		);
-
 		myAccordion.showThisHideOpen(contents[0]);
-
 	</script>
 
         </td>
-
   </tr>
-
 </table>
-
 </body>
-
 </html>
 
