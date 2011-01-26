@@ -3,28 +3,32 @@
 
 <%
 String path = request.getContextPath();
+String parameterName = (String)request.getAttribute("parameterName");
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 <title></title>
 <link href="<%=path %>/jsp/init/css/all.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-
+<form method="post" action="<%=path%>/usualMgr.do?method=queryTablespaceInfo">
 <div id="center-column">
 			<div class="top-bar">
 				<a href="#" class="button"> </a>
 				<h1>表空间</h1>
 				<div class="breadcrumbs"></div>
 			</div><br />
-		  <div class="select-bar">
+		 <div class="select-bar">
 		    <label>
+		    <span class="breadcrumbs">表空间名:
+		    <input type="text" name="parameterName" value="<%=parameterName %>"/>
 		    </label>
 		    <label>
+			<input type="submit" name="Submit" value="Search" />
 			</label>
+			</span>
 		  </div>
 		  <br /><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
 			<b>表空间使用情况(总):</b><div class="table">
@@ -85,6 +89,8 @@ String path = request.getContextPath();
 					</c:if>
 				</table>
 			</div>
+			</div>
+			</form>
 </body>
 </html>
 

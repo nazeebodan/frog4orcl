@@ -5,7 +5,6 @@
 
 <%
 String path = request.getContextPath();
-String parameterName = (String)request.getAttribute("parameterName");
 Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT_DATA);
 %>
 
@@ -14,30 +13,54 @@ Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT
 <head>
 <title></title>
 <link href="<%=path %>/jsp/init/css/all.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+function secBoard(v){
+   var url;
+   if(v==0){
+      url = "/usualMgr.do?method=queryJobsInfo";
+   }else if(v==1){
+      url = "/usualMgr.do?method=queryRunningJobsInfo"
+   }else if(v==2){
+      url = "/usualMgr.do?method=querySchedulerJobsInfo";
+   }else if(v==3){
+      url = "/usualMgr.do?method=querySchedulersInfo";
+   }
+   window.location='<%=path%>'+url;
+}
+</script>
 </head>
+
 <body>
-<form method="post" action="<%=path%>/usualMgr.do?method=queryInitParameter">
+<form method="post" action="<%=path%>/usualMgr.do?method=queryRunningJobsInfo">
 <div id="center-column">
 			<div class="top-bar">
-				<h1>初始化参数</h1>
+				<a href="#" class="button"> </a>
+				<h1>scheduler/job综合信息</h1>
 				<div class="breadcrumbs"></div>
 			</div><br />
 		  <div class="select-bar">
 		    <label>
-		    <span class="breadcrumbs">参数名:
-		    <input type="text" name="parameterName" value="<%=parameterName %>"/>
 		    </label>
 		    <label>
-			<input type="submit" name="Submit" value="Search" />
 			</label>
-			</span>
+			<TABLE width=72% border=0 cellPadding=0 cellSpacing=0 id=secTable>
+                <TBODY>
+                  <TR align=middle height=20>
+                    <TD align="center" onclick=secBoard(0)>job信息</TD>
+                    <TD align="center" onclick=secBoard(1) style="background-color:#F7EFF1;">正在运行的job信息</TD>
+                    <TD align="center" onclick=secBoard(2)>Scheduler下的job信息</TD>
+                    <TD align="center" onclick=secBoard(3)>Scheduler信息</TD>
+                  </TR>
+                </TBODY>
+              </TABLE>
 		  </div>
-<div class="table">
+		  <br /><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
+			<b>用户权限情况:</b><div class="table">
 				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
 				<table class="listing" cellpadding="0" cellspacing="0">
 					<tr>
-						<c:if test="${OBJECT_DATA.data!= null}">
-							<c:forEach var="columns" items="${OBJECT_DATA.data.columns}" varStatus="s">
+						<c:if test="${info.data!= null}">
+							<c:forEach var="columns" items="${info.data.columns}" varStatus="s">
 								<c:if test="${s.first}">
 									<th class="first"><c:out value="${columns.name}"/></th>
 								</c:if>
@@ -51,11 +74,11 @@ Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT
 							</c:forEach>
 						</c:if>						
 					</tr>					
-					<c:if test="${OBJECT_DATA.data!=null}">
-						<c:if test="${OBJECT_DATA.data.data!=null}">
-							<c:forEach var="rowMap" items="${OBJECT_DATA.data.data.rows}">
+					<c:if test="${info.data!=null}">
+						<c:if test="${info.data.data!=null}">
+							<c:forEach var="rowMap" items="${info.data.data.rows}">
 							<tr>
-								<c:forEach var="columns" items="${OBJECT_DATA.data.columns}" >
+								<c:forEach var="columns" items="${info.data.columns}" >
 									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
 								</c:forEach>
 							</tr>
@@ -67,7 +90,6 @@ Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT
 					<br />
 					<%=pageObj.getToolsMenu() %>
 			  	</div>
-			</div>
 			</div>
 			</form>
 </body>
