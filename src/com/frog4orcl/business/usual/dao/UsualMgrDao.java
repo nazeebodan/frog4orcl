@@ -3,6 +3,7 @@
  */
 package com.frog4orcl.business.usual.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import com.frog4orcl.framework.core.ProcessResult;
@@ -23,7 +24,7 @@ public interface UsualMgrDao {
 	
 	public ProcessResult<TableInfo> query(DBManagerImpl dba) throws DatabaseException;
 	
-	public ProcessResult<TableInfo> query(DBManagerImpl dba,Pagination page) throws DatabaseException;
+	public ProcessResult<TableInfo> query(DBManagerImpl dba,Pagination page,List<Object> parameter) throws DatabaseException;
 	
 	public Map<String, Object> query4Map(DBManagerImpl dba) throws DatabaseException;
 }

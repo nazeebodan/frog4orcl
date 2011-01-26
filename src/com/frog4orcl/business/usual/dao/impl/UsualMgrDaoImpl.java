@@ -5,6 +5,7 @@ package com.frog4orcl.business.usual.dao.impl;
 
 import java.sql.ResultSet;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -57,26 +58,26 @@ public class UsualMgrDaoImpl implements UsualMgrDao {
 	public Map<String, Object> query4Map(DBManagerImpl dba)
 			throws DatabaseException {
 		ResultSet rs = null;
-		try{
+		try {
 			rs = dba.executeOnlineQuery();
 			Map<String, Object> map = new HashMap<String, Object>();
-			if(rs!=null){
-				while(rs.next()){
+			if (rs != null) {
+				while (rs.next()) {
 					map.put(rs.getString(1), rs.getObject(2));
 				}
 			}
 			return map;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 
-	public ProcessResult<TableInfo> query(DBManagerImpl dba, Pagination page)
-			throws DatabaseException {
+	public ProcessResult<TableInfo> query(DBManagerImpl dba, Pagination page,
+			List<Object> parameters) throws DatabaseException {
 		try {
 			ProcessResult<TableInfo> result = new ProcessResult<TableInfo>();
-			TableInfo ti = dba.getTableInfoByResultSet(page);
+			TableInfo ti = dba.getTableInfoByResultSet(page, parameters);
 			result.setData(ti);
 			result.setSuccess(true);
 			return result;

@@ -5,7 +5,9 @@ package com.frog4orcl.business.usual.biz.impl;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,47 +57,41 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		this.usualMgrDao = usualMgrDao;
 	}
 
-	public ProcessResult<TableInfo> queryInitParameter(
-			HttpServletRequest request, HttpServletResponse response,
-			DBManagerImpl dba) {
-		String parameterName = request.getParameter("parameterName");
-		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT T.NAME AS 参数名,");
-//		sql.append("T.VALUE AS 参数值,");
-//		sql.append("T.TYPE AS 参数类型,");
-//		sql.append("T.ISDEFAULT AS 是否缺省值");
+//	public ProcessResult<TableInfo> queryInitParameter(
+//			HttpServletRequest request, HttpServletResponse response,
+//			DBManagerImpl dba) {
+//		String parameterName = request.getParameter("parameterName");
+//		StringBuffer sql = new StringBuffer();
+//		// sql.append("SELECT T.NAME AS 参数名,");
+//		// sql.append("T.VALUE AS 参数值,");
+//		// sql.append("T.TYPE AS 参数类型,");
+//		// sql.append("T.ISDEFAULT AS 是否缺省值");
+//		// sql.append(" FROM V$PARAMETER T");
+//
+//		sql.append("SELECT T.NAME,");
+//		sql.append("T.VALUE,");
+//		sql.append("T.TYPE,");
+//		sql.append("T.ISDEFAULT");
 //		sql.append(" FROM V$PARAMETER T");
-
-		sql.append("SELECT T.NAME,");
-		sql.append("T.VALUE,");
-		sql.append("T.TYPE,");
-		sql.append("T.ISDEFAULT");
-		sql.append(" FROM V$PARAMETER T");
-		
-		try {
-			if (parameterName != null && !parameterName.equals("")) {
-				parameterName = parameterName.trim();
-				// sql.append(" WHERE T.NAME LIKE ?");
-				// dba.setSQL(sql.toString());
-				// StringBuffer tmp = new StringBuffer();
-				// tmp.append("'%").append(parameterName).append("%'");
-				// dba.setString(1, tmp.toString());
-
-				sql.append(" WHERE T.NAME LIKE '%").append(parameterName)
-						.append("%'");
-				dba.setSQL(sql.toString());
-				request.setAttribute("parameterName", parameterName);
-			} else {
-				dba.setSQL(sql.toString());
-			}
-
-			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
-			return ti;
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new DatabaseException(e.getMessage());
-		}
-	}
+//
+//		try {
+//			if (parameterName != null && !parameterName.equals("")) {
+//				parameterName = parameterName.trim();
+//				sql.append(" WHERE T.NAME LIKE '%'?'%'");
+//				dba.setSQL(sql.toString());
+//				dba.setString(1, parameterName);
+//				request.setAttribute("parameterName", parameterName);
+//			} else {
+//				dba.setSQL(sql.toString());
+//			}
+//
+//			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+//			return ti;
+//		} catch (Exception e) {
+//			logger.error(e.getMessage());
+//			throw new DatabaseException(e.getMessage());
+//		}
+//	}
 
 	public ProcessResult<TableInfo> querySga(HttpServletRequest request,
 			HttpServletResponse response, DBManagerImpl dba) {
@@ -131,13 +127,13 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT T.COMPONENT AS 组件名称,");
-//		sql.append("T.CURRENT_SIZE AS \"当前值(byte)\",");
-//		sql.append("T.MIN_SIZE AS \"最小值(byte)\",");
-//		sql.append("T.MAX_SIZE AS \"最大值(byte)\",");
-//		sql.append("T.GRANULE_SIZE AS \"粒度大小(byte)\"");
-//		sql.append(" FROM V$SGA_DYNAMIC_COMPONENTS T");
-		
+		// sql.append("SELECT T.COMPONENT AS 组件名称,");
+		// sql.append("T.CURRENT_SIZE AS \"当前值(byte)\",");
+		// sql.append("T.MIN_SIZE AS \"最小值(byte)\",");
+		// sql.append("T.MAX_SIZE AS \"最大值(byte)\",");
+		// sql.append("T.GRANULE_SIZE AS \"粒度大小(byte)\"");
+		// sql.append(" FROM V$SGA_DYNAMIC_COMPONENTS T");
+
 		sql.append("SELECT T.COMPONENT,");
 		sql.append("T.CURRENT_SIZE,");
 		sql.append("T.MIN_SIZE,");
@@ -254,19 +250,20 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 	public ProcessResult<TableInfo> queryTablespaceInfo(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
+		String parameterName = request.getParameter("parameterName");
 		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT A.TABLESPACE_NAME \"表空间名\",");
-//		sql.append("TOTAL/1024/1024 表空间大小_M,FREE/1024/1024 表空间剩余大小_M,");
-//		sql.append("(TOTAL - FREE)/1024/1024 表空间使用大小_M,");
-//		sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 \"使用率 %\"");
-//		sql.append(" FROM (SELECT TABLESPACE_NAME, SUM(BYTES) FREE");
-//		sql.append(" FROM DBA_FREE_SPACE");
-//		sql.append(" GROUP BY TABLESPACE_NAME) A,");
-//		sql.append("(SELECT TABLESPACE_NAME, SUM(BYTES) TOTAL");
-//		sql.append(" FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME) B");
-//		sql.append(" WHERE A.TABLESPACE_NAME = B.TABLESPACE_NAME");
-//		sql.append(" ORDER BY A.TABLESPACE_NAME");
-		
+		// sql.append("SELECT A.TABLESPACE_NAME \"表空间名\",");
+		// sql.append("TOTAL/1024/1024 表空间大小_M,FREE/1024/1024 表空间剩余大小_M,");
+		// sql.append("(TOTAL - FREE)/1024/1024 表空间使用大小_M,");
+		// sql.append("ROUND((TOTAL - FREE) / TOTAL, 4) * 100 \"使用率 %\"");
+		// sql.append(" FROM (SELECT TABLESPACE_NAME, SUM(BYTES) FREE");
+		// sql.append(" FROM DBA_FREE_SPACE");
+		// sql.append(" GROUP BY TABLESPACE_NAME) A,");
+		// sql.append("(SELECT TABLESPACE_NAME, SUM(BYTES) TOTAL");
+		// sql.append(" FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME) B");
+		// sql.append(" WHERE A.TABLESPACE_NAME = B.TABLESPACE_NAME");
+		// sql.append(" ORDER BY A.TABLESPACE_NAME");
+
 		sql.append("SELECT A.TABLESPACE_NAME,");
 		sql.append("TOTAL/1024/1024 TOTAL_m,FREE/1024/1024 FREE_M,");
 		sql.append("(TOTAL - FREE)/1024/1024 USED_M,");
@@ -277,11 +274,21 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		sql.append("(SELECT TABLESPACE_NAME, SUM(BYTES) TOTAL");
 		sql.append(" FROM DBA_DATA_FILES GROUP BY TABLESPACE_NAME) B");
 		sql.append(" WHERE A.TABLESPACE_NAME = B.TABLESPACE_NAME");
-		sql.append(" ORDER BY A.TABLESPACE_NAME");
-
+		
 		try {
-			dba.setSQL(sql.toString());
+			if (parameterName != null && !parameterName.equals("")) {
+				parameterName = parameterName.trim();
+				sql.append(" AND A.TABLESPACE_NAME LIKE ?");
+				sql.append(" ORDER BY A.TABLESPACE_NAME");
+				dba.setSQL(sql.toString());
+				dba.setObject(1, parameterName+"%");
+			} else {
+				sql.append(" ORDER BY A.TABLESPACE_NAME");
+				dba.setSQL(sql.toString());
+			}			
+
 			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			request.setAttribute("parameterName", TextUtils.nvl(parameterName));
 			return ti;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -292,17 +299,20 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 	public ProcessResult<TableInfo> queryTablespaceInfoIncludeDatafile(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
+		String parameterName = request.getParameter("parameterName");
 		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT B.TABLESPACE_NAME 表空间,");
-//		sql.append("B.FILE_NAME 物理文件名,B.BYTES 总字节数,");
-//		sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) 已使用,");
-//		sql.append("SUM(NVL(A.BYTES, 0)) 剩余,");
-//		sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as \"剩余百分比(%)\"");
-//		sql.append(" FROM DBA_FREE_SPACE A,DBA_DATA_FILES B");
-//		sql.append(" WHERE A.FILE_ID = B.FILE_ID");
-//		sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
-//		sql.append(" ORDER BY B.TABLESPACE_NAME");
-		
+		// sql.append("SELECT B.TABLESPACE_NAME 表空间,");
+		// sql.append("B.FILE_NAME 物理文件名,B.BYTES 总字节数,");
+		// sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) 已使用,");
+		// sql.append("SUM(NVL(A.BYTES, 0)) 剩余,");
+		// sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as
+		// \"剩余百分比(%)\"");
+		// sql.append(" FROM DBA_FREE_SPACE A,DBA_DATA_FILES B");
+		// sql.append(" WHERE A.FILE_ID = B.FILE_ID");
+		// sql.append(" GROUP BY B.TABLESPACE_NAME,
+		// B.FILE_NAME,B.FILE_ID,B.BYTES");
+		// sql.append(" ORDER BY B.TABLESPACE_NAME");
+
 		sql.append("SELECT B.TABLESPACE_NAME,");
 		sql.append("B.FILE_NAME,B.BYTES,");
 		sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) USED,");
@@ -310,12 +320,22 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as \"FREE(%)\"");
 		sql.append(" FROM DBA_FREE_SPACE A,DBA_DATA_FILES B");
 		sql.append(" WHERE A.FILE_ID = B.FILE_ID");
-		sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
-		sql.append(" ORDER BY B.TABLESPACE_NAME");
-
+		
 		try {
-			dba.setSQL(sql.toString());
+			if (parameterName != null && !parameterName.equals("")) {
+				parameterName = parameterName.trim();
+				sql.append(" AND B.TABLESPACE_NAME LIKE ?");
+				sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
+				sql.append(" ORDER BY B.TABLESPACE_NAME");
+				dba.setSQL(sql.toString());
+				dba.setObject(1, parameterName+"%");
+			}else{
+				sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
+				sql.append(" ORDER BY B.TABLESPACE_NAME");
+				dba.setSQL(sql.toString());
+			}
 			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			request.setAttribute("parameterName", TextUtils.nvl(parameterName));
 			return ti;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -327,16 +347,15 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT T.NAME AS 控制文件名称位置,");
-//		sql.append("T.IS_RECOVERY_DEST_FILE 是否在快速回复区被创建,");
-//		sql.append("T.BLOCK_SIZE 块大小");
-//		sql.append(" FROM V$CONTROLFILE T");
-//		
+		// sql.append("SELECT T.NAME AS 控制文件名称位置,");
+		// sql.append("T.IS_RECOVERY_DEST_FILE 是否在快速回复区被创建,");
+		// sql.append("T.BLOCK_SIZE 块大小");
+		// sql.append(" FROM V$CONTROLFILE T");
+		//		
 		sql.append("SELECT T.NAME,");
 		sql.append("T.IS_RECOVERY_DEST_FILE");
-//		sql.append("T.\\\");
+		// sql.append("T.\\\");
 		sql.append(" FROM V$CONTROLFILE T");
-
 
 		try {
 			dba.setSQL(sql.toString());
@@ -352,12 +371,12 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
 		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT T.TYPE AS 每个section的类型,");
-//		sql.append("T.RECORD_SIZE AS 每条记录占用的空间,");
-//		sql.append("T.RECORDS_TOTAL AS 所能保留的最大记录数,");
-//		sql.append("T.RECORDS_USED AS 当前已占用的记录数");
-//		sql.append(" FROM V$CONTROLFILE_RECORD_SECTION T");
-		
+		// sql.append("SELECT T.TYPE AS 每个section的类型,");
+		// sql.append("T.RECORD_SIZE AS 每条记录占用的空间,");
+		// sql.append("T.RECORDS_TOTAL AS 所能保留的最大记录数,");
+		// sql.append("T.RECORDS_USED AS 当前已占用的记录数");
+		// sql.append(" FROM V$CONTROLFILE_RECORD_SECTION T");
+
 		sql.append("SELECT T.TYPE,");
 		sql.append("T.RECORD_SIZE,");
 		sql.append("T.RECORDS_TOTAL,");
@@ -379,12 +398,12 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			DBManagerImpl dba, Pagination page) {
 		String parameterName = request.getParameter("parameterName");
 		StringBuffer sql = new StringBuffer();
-//		sql.append("SELECT T.NAME AS 参数名,");
-//		sql.append("T.VALUE AS 参数值,");
-//		sql.append("T.TYPE AS 参数类型,");
-//		sql.append("T.ISDEFAULT AS 是否缺省值");
-//		sql.append(" FROM V$PARAMETER T");
-		
+		// sql.append("SELECT T.NAME AS 参数名,");
+		// sql.append("T.VALUE AS 参数值,");
+		// sql.append("T.TYPE AS 参数类型,");
+		// sql.append("T.ISDEFAULT AS 是否缺省值");
+		// sql.append(" FROM V$PARAMETER T");
+
 		sql.append("SELECT T.NAME,");
 		sql.append("T.VALUE,");
 		sql.append("T.TYPE,");
@@ -392,23 +411,18 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		sql.append(" FROM V$PARAMETER T");
 
 		try {
+			List<Object> parameter = null;
 			if (parameterName != null && !parameterName.equals("")) {
 				parameterName = parameterName.trim();
-				// sql.append(" WHERE T.NAME LIKE ?");
-				// dba.setSQL(sql.toString());
-				// StringBuffer tmp = new StringBuffer();
-				// tmp.append("'%").append(parameterName).append("%'");
-				// dba.setString(1, tmp.toString());
-
-				sql.append(" WHERE T.NAME LIKE '%").append(parameterName)
-						.append("%'");
+				sql.append(" WHERE T.NAME LIKE ?");
 				dba.setSQL(sql.toString());
-				
+				parameter = new ArrayList<Object>();
+				parameter.add(0, "%"+parameterName+"%");
 			} else {
 				dba.setSQL(sql.toString());
 			}
 
-			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba,page);
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,parameter);
 			request.setAttribute("parameterName", TextUtils.nvl(parameterName));
 			return ti;
 		} catch (Exception e) {
@@ -456,7 +470,7 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 
 	public ProcessResult<TableInfo> queryUserPrivInfo(
 			HttpServletRequest request, HttpServletResponse response,
-			DBManagerImpl dba,Pagination page) {
+			DBManagerImpl dba, Pagination page) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT A.USERNAME, B.PRIVILEGE WHAT_GRANTED,B.ADMIN_OPTION");
 		sql.append(" FROM SYS.DBA_USERS A, SYS.DBA_SYS_PRIVS B");
@@ -465,7 +479,195 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 
 		try {
 			dba.setSQL(sql.toString());
-			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba,page);
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryUserHaveObjectsInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT OWNER, OBJECT_TYPE,COUNT(*) CN");
+		sql.append(" FROM DBA_OBJECTS");
+		sql.append(" WHERE OWNER NOT IN ('SYSTEM','SYS','PERFSTAT')");
+		sql.append(" GROUP BY OWNER,OBJECT_TYPE");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryBackupDataFileInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT A.*, B.TABLESPACE_NAME,B.FILE_NAME");
+		sql.append(" FROM V$BACKUP A, DBA_DATA_FILES B");
+		sql.append(" WHERE A.FILE# = B.FILE_ID ORDER BY A.FILE#");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryRollbackSegmentInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT SEGMENT_NAME,TABLESPACE_NAME,(INITIAL_EXTENT/1024) INITIALEXTENT,");
+		sql.append(" (NEXT_EXTENT/1024) NEXTEXTENT,MIN_EXTENTS,MAX_EXTENTS,STATUS");
+		sql.append(" FROM DBA_ROLLBACK_SEGS");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryJobsInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.JOB, T.PRIV_USER,T.LAST_DATE,T.LAST_SEC,");
+		sql.append("T.NEXT_DATE,T.NEXT_SEC,T.INTERVAL,T.WHAT");
+		sql.append(" FROM DBA_JOBS T");
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryRunningJobsInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM DBA_JOBS_RUNNING");
+		
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> querySchedulerJobsInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.OWNER, T.JOB_NAME,T.JOB_ACTION,");
+		sql.append("T.REPEAT_INTERVAL,T.ENABLED,T.STATE,");
+		sql.append("TO_CHAR(T.START_DATE,'YYYY-MM-DD HH24:MI:SS') START_DATE");
+		sql.append(" FROM DBA_SCHEDULER_JOBS T");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> querySchedulersInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.OWNER,T.SCHEDULE_NAME,T.SCHEDULE_TYPE,");
+		sql.append("TO_CHAR(T.START_DATE,'YYYY-MM-DD HH24:MI:SS') START_DATE,");
+		sql.append("T.REPEAT_INTERVAL FROM DBA_SCHEDULER_SCHEDULES T");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryPropsServerInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM NLS_DATABASE_PARAMETERS");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryPropsServerInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT USERENV('LANGUAGE') AS NLS_LANG FROM DUAL");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+	
+	public ProcessResult<TableInfo> queryPropsClientInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM NLS_INSTANCE_PARAMETERS");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryPropsSessionInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM NLS_SESSION_PARAMETERS");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
 			return ti;
 		} catch (Exception e) {
 			logger.error(e.getMessage());
