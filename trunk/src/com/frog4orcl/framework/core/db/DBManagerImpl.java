@@ -61,32 +61,32 @@ public class DBManagerImpl implements DBManager {
 	public DBManagerImpl(Map<String, String> parameter)
 			throws ClassNotFoundException, SQLException {
 
-		String ip = parameter.get("ip");//IP地址
-		String port = parameter.get("port");//端口
-		String username = parameter.get("username");//用户名
-		String password = parameter.get("password");//密码
-		String sid = parameter.get("sid");//sid
+		String ip = parameter.get("ip");// IP地址
+		String port = parameter.get("port");// 端口
+		String username = parameter.get("username");// 用户名
+		String password = parameter.get("password");// 密码
+		String sid = parameter.get("sid");// sid
 		String url = "";
 		String driver = "";
-		try{
+		try {
 			Properties prop = DBProperties.getInstance().getDBConfig();
 			url = prop.getProperty("url");
 			driver = prop.getProperty("driver");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error("Load db config fail:" + e.getMessage());
 			throw new DatabaseException(e.getMessage());
 		}
 
 		url = url.replaceAll("<ip>", ip).replaceAll("<port>", port).replaceAll(
 				"<dbname>", sid);
-		
+
 		Properties conProps = new Properties();
-        conProps.put("user", username);
-        conProps.put("password", password);
-        if(username.equalsIgnoreCase("sys")){
-        	conProps.put("internal_logon", "SYSDBA");
-        }
-        
+		conProps.put("user", username);
+		conProps.put("password", password);
+		if (username.equalsIgnoreCase("sys")) {
+			conProps.put("internal_logon", "SYSDBA");
+		}
+
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
@@ -95,7 +95,7 @@ public class DBManagerImpl implements DBManager {
 		}
 
 		try {
-			Connection conn = DriverManager.getConnection(url,conProps);
+			Connection conn = DriverManager.getConnection(url, conProps);
 			this.conn = conn;
 		} catch (SQLException e) {
 			String msg = "链接数据库出错：" + e.getMessage();
@@ -133,7 +133,7 @@ public class DBManagerImpl implements DBManager {
 			executeSql = sql;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			log.error("设置预编译语句的时候出现错误:",e);
+			log.error("设置预编译语句的时候出现错误:", e);
 			throw new DatabaseException("设置预编译语句的时候出现错误！", e);
 		}
 	}
@@ -554,7 +554,7 @@ public class DBManagerImpl implements DBManager {
 			this.pstmtSql.setTimestamp(parameterIndex, x);
 		} catch (Exception ex) {
 			log.error("为预编译对象设置日期戳型参数失败:", ex);
-			throw new DatabaseException( ex);
+			throw new DatabaseException(ex);
 		}
 	}
 
@@ -646,7 +646,7 @@ public class DBManagerImpl implements DBManager {
 			}
 			return crs;
 		} catch (Exception ex) {
-			log.error("sql语句查询执行失败:"+ex.getMessage());
+			log.error("sql语句查询执行失败:" + ex.getMessage());
 			throw new DatabaseException(ex.getMessage());
 		} finally {
 			try {
@@ -683,7 +683,8 @@ public class DBManagerImpl implements DBManager {
 			}
 			return this.pstmtSql.executeQuery();
 		} catch (Exception ex) {
-			log.error("sql语句查询执行失败:"+ex.getMessage());
+			log.error("execute sql fail:" + this.executeSql);
+			log.error("sql语句查询执行失败:" + ex.getMessage());
 			throw new DatabaseException(ex.getMessage());
 		}
 	}
@@ -708,7 +709,7 @@ public class DBManagerImpl implements DBManager {
 			}
 			return this.pstmtSql.executeQuery();
 		} catch (Exception ex) {
-			log.error("sql语句查询执行失败:"+ex.getMessage());
+			log.error("sql语句查询执行失败:" + ex.getMessage());
 			throw new DatabaseException(ex.getMessage());
 		}
 	}
@@ -736,7 +737,7 @@ public class DBManagerImpl implements DBManager {
 			}
 			return columns;
 		} catch (Exception e) {
-			log.error("getTableColumnInfoByResultSet执行失败:"+e.getMessage());
+			log.error("getTableColumnInfoByResultSet执行失败:" + e.getMessage());
 			throw new DatabaseException(e.getMessage());
 		}
 	}
@@ -767,7 +768,7 @@ public class DBManagerImpl implements DBManager {
 			}
 			return new TableDataInfo(rows.size(), rows);
 		} catch (Exception e) {
-			log.error("getTableDataInfoByResultSet 执行失败:"+e.getMessage());
+			log.error("getTableDataInfoByResultSet 执行失败:" + e.getMessage());
 			throw new DatabaseException(e.getMessage());
 		}
 	}
@@ -809,22 +810,24 @@ public class DBManagerImpl implements DBManager {
 		}
 		return value;
 	}
-	
+
 	/**
 	 * 获取tableinfo
-	 * @param sql 需要查询的sql
+	 * 
+	 * @param sql
+	 *            需要查询的sql
 	 * @return
 	 */
-	public TableInfo getTableInfoByResultSet(String sql){
+	public TableInfo getTableInfoByResultSet(String sql) {
 		ResultSet rs = null;
-		try{
+		try {
 			rs = this.executeOnlineQuery(sql);
 			return getTableInfoByResultSet(rs);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error("getTableInfoByResultSet 执行失败:", e);
 			throw new DatabaseException(e.getMessage());
-		}finally{
-			if(rs!=null){
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
@@ -834,21 +837,21 @@ public class DBManagerImpl implements DBManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public TableInfo getTableInfoByResultSet(){
+	public TableInfo getTableInfoByResultSet() {
 		ResultSet rs = null;
-		try{
+		try {
 			rs = this.executeOnlineQuery();
 			return getTableInfoByResultSet(rs);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error("getTableInfoByResultSet 执行失败:", e);
 			throw new DatabaseException(e.getMessage());
-		}finally{
-			if(rs!=null){
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
@@ -858,41 +861,44 @@ public class DBManagerImpl implements DBManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * 获取tableinfo
-	 * @param rs 结果集
+	 * 
+	 * @param rs
+	 *            结果集
 	 * @return
 	 */
-	public TableInfo getTableInfoByResultSet(ResultSet rs){
-		try{
+	public TableInfo getTableInfoByResultSet(ResultSet rs) {
+		try {
 			TableInfo ti = new TableInfo();
 			List<TableHeaderInfo> head = getTableColumnInfoByResultSet(rs);
 			TableDataInfo data = getTableDataInfoByResultSet(rs, head);
 			ti.setColumns(head);
 			ti.setData(data);
 			return ti;
-		}catch (Exception e) {
-			log.error("getTableInfoByResultSet 执行失败:"+e.getMessage());
+		} catch (Exception e) {
+			log.error("getTableInfoByResultSet 执行失败:" + e.getMessage());
 			throw new DatabaseException(e.getMessage());
 		}
 	}
 
 	/**
 	 * 获取结果集,带分页
+	 * 
 	 * @param page
 	 * @return
 	 */
-	public TableInfo getTableInfoByResultSet(Pagination page){
+	public TableInfo getTableInfoByResultSet(Pagination page,
+			List<Object> parameters) {
 		ResultSet rs = null;
-		try{
+		try {
 			String sql = this.executeSql;
-			
-			page.init(this.getRecordsCnt(sql));
-			
-			int beginNum = page.getBeginElement();//开始的条数
-			int endNum = page.getEndElement();//结束的条数
-			
+			page.init(this.getRecordsCnt(sql, parameters));
+
+			int beginNum = page.getBeginElement();// 开始的条数
+			int endNum = page.getEndElement();// 结束的条数
+
 			StringBuffer wrapSql = new StringBuffer();
 			wrapSql.append("SELECT * FROM (");
 			wrapSql.append("SELECT A.*, ROWNUM RN FROM (");
@@ -900,14 +906,19 @@ public class DBManagerImpl implements DBManager {
 			wrapSql.append(") A WHERE ROWNUM <= ").append(endNum);
 			wrapSql.append(") WHERE RN >= ").append(beginNum);
 			this.setSQL(wrapSql.toString());
-			
+			if (parameters != null && parameters.size() > 0) {
+				int i = 0;
+				for (Object obj : parameters) {
+					this.setObject(++i, obj);
+				}
+			}
 			rs = this.executeOnlineQuery();
 			return getTableInfoByResultSet(rs);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			log.error("getTableInfoByResultSet 执行失败:", e);
 			throw new DatabaseException(e.getMessage());
-		}finally{
-			if(rs!=null){
+		} finally {
+			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
@@ -917,29 +928,36 @@ public class DBManagerImpl implements DBManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * 获取SQL的记录数
+	 * 
 	 * @param sql
 	 * @return
 	 */
-	public int getRecordsCnt(String sql){
-		try{
-			//获取最大记录数
+	public int getRecordsCnt(String sql, List<Object> parameters) {
+		try {
+			// 获取最大记录数
 			StringBuffer cntSql = new StringBuffer();
-			cntSql.append("SELECT COUNT(*) cnt FROM (");
+			cntSql.append("SELECT COUNT(*) CNT FROM (");
 			cntSql.append(sql).append(")");
-			ResultSet rs = this.executeOnlineQuery(cntSql.toString());
-			
-			int cnt=0;
-			if(rs!=null){
-				while(rs.next()){
+			this.setSQL(cntSql.toString());
+			if (parameters != null && parameters.size() > 0) {
+				int i = 0;
+				for (Object obj : parameters) {
+					this.setObject(++i, obj);
+				}
+			}
+			ResultSet rs = this.executeOnlineQuery();
+			int cnt = 0;
+			if (rs != null) {
+				while (rs.next()) {
 					cnt = Integer.parseInt(String.valueOf(rs.getObject(1)));
 				}
 			}
 			return cnt;
-		}catch (Exception e) {
-			log.error("获取sql记录数失败:",e);
+		} catch (Exception e) {
+			log.error("获取sql记录数失败:", e);
 			throw new DatabaseException(e.getMessage());
 		}
 	}

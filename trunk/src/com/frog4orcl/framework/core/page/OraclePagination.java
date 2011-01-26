@@ -29,6 +29,8 @@ public class OraclePagination implements Pagination {
 	// 最大记录数
 	private int maxElements;
 
+	private HttpServletRequest request;
+
 	/**
 	 * 构造方法
 	 */
@@ -76,6 +78,7 @@ public class OraclePagination implements Pagination {
 		} else {
 			setPageNumber(DEFAULT_PAGE_NUMBER);
 		}
+		this.request = request;
 	}
 
 	/**
@@ -342,6 +345,14 @@ public class OraclePagination implements Pagination {
 		str.append("<INPUT type=hidden  value=" + pageSize
 				+ " name=\"pageSize\"> ");
 		return str.toString();
+	}
+
+	public String getParameter(String key) {
+		return request.getParameter(key);
+	}
+
+	public String[] getParameterValues(String key) {
+		return request.getParameterValues(key);
 	}
 
 }
