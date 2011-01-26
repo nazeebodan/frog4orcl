@@ -32,6 +32,45 @@
 		<property name="controlfilePageUrl">
 			<value>/jsp/usualmgr/usual-controlfile</value>
 		</property>
+		<property name="redologfilePageUrl">
+			<value>/jsp/usualmgr/usual-redologfile</value>
+		</property>
+		<property name="userInfoPageUrl">
+			<value>/jsp/usualmgr/usual-user-info</value>
+		</property>
+		<property name="userPrivInfoPageUrl">
+			<value>/jsp/usualmgr/usual-user-priv</value>
+		</property>
+		<property name="userHaveObjectsPageUrl">
+			<value>/jsp/usualmgr/usual-user-objects</value>
+		</property>
+		<property name="backupDataFilePageUrl">
+			<value>/jsp/usualmgr/usual-backup-datafile</value>
+		</property>
+		<property name="rollbackSegPageUrl">
+			<value>/jsp/usualmgr/usual-rollbacksegment</value>
+		</property>
+		<property name="jobPageUrl">
+			<value>/jsp/usualmgr/usual-sj-job</value>
+		</property>
+		<property name="jobRunningPageUrl">
+			<value>/jsp/usualmgr/usual-sj-runningjob</value>
+		</property>
+		<property name="schedulerJobPageUrl">
+			<value>/jsp/usualmgr/usual-sj-schedulejob</value>
+		</property>
+		<property name="schedulersPageUrl">
+			<value>/jsp/usualmgr/usual-sj-schedules</value>
+		</property>
+		<property name="propServerPageUrl">
+			<value>/jsp/usualmgr/usual-props-server</value>
+		</property>
+		<property name="propClientPageUrl">
+			<value>/jsp/usualmgr/usual-props-client</value>
+		</property>
+		<property name="propSessionPageUrl">
+			<value>/jsp/usualmgr/usual-props-session</value>
+		</property>
 		<property name="usualMgrBiz">
 			<ref bean="usualMgrBiz" />
 		</property>
