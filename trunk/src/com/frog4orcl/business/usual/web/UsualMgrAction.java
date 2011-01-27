@@ -43,6 +43,9 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 	private String propServerPageUrl;//字符集server端信息的url
 	private String propClientPageUrl;//字符集client端信息的url
 	private String propSessionPageUrl;//字符集session信息的url
+	private String processAndSessionPageUrl;//processAndSession信息的url
+	private String bgprocessPageUrl;//bgprocess信息的url
+	
 	private UsualMgrBiz usualMgrBiz;
 
 	public void setUsualMgrBiz(UsualMgrBiz usualMgrBiz) {
@@ -480,6 +483,52 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
+	
+	/**
+	 * 查询进程和session(与ORACLE相关的所有进程信息(包括后台进程和服务器进程))
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView queryProcessAndSessionInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
+			Pagination page = new OraclePagination(request);
+			ProcessResult<TableInfo> info = this.usualMgrBiz
+					.queryProcessAndSessionInfo(request, response, dba.getData(),page);
+			
+			request.setAttribute("info",info);
+			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
+			return new ModelAndView(this.getProcessAndSessionPageUrl());
+		} catch (Exception e) {
+			return sendErrorjsp(request, response, e.getMessage());
+		}
+	}
+	
+	/**
+	 * 查询后台进程详细信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView queryBGProcessInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
+			Pagination page = new OraclePagination(request);
+			ProcessResult<TableInfo> info = this.usualMgrBiz
+					.queryBGProcessInfo(request, response, dba.getData(),page);
+			
+			request.setAttribute("info",info);
+			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
+			return new ModelAndView(this.getBgprocessPageUrl());
+		} catch (Exception e) {
+			return sendErrorjsp(request, response, e.getMessage());
+		}
+	}
 
 	public String getControlfilePageUrl() {
 		return controlfilePageUrl;
@@ -591,5 +640,21 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 
 	public void setPropSessionPageUrl(String propSessionPageUrl) {
 		this.propSessionPageUrl = propSessionPageUrl;
+	}
+
+	public String getProcessAndSessionPageUrl() {
+		return processAndSessionPageUrl;
+	}
+
+	public void setProcessAndSessionPageUrl(String processAndSessionPageUrl) {
+		this.processAndSessionPageUrl = processAndSessionPageUrl;
+	}
+
+	public String getBgprocessPageUrl() {
+		return bgprocessPageUrl;
+	}
+
+	public void setBgprocessPageUrl(String bgprocessPageUrl) {
+		this.bgprocessPageUrl = bgprocessPageUrl;
 	}
 }

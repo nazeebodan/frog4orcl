@@ -675,4 +675,40 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		}
 	}
 
+	public ProcessResult<TableInfo> queryProcessAndSessionInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT A.TERMINAL,A.SPID,A.PGA_ALLOC_MEM,");
+		sql.append("B.SID,B.SERIAL#,B.USERNAME,B.OSUSER,B.MACHINE,");
+		sql.append("B.TYPE,B.SQL_ID,B.LOGON_TIME,B.EVENT");
+		sql.append(" FROM V$PROCESS A ,V$SESSION B");
+		sql.append(" WHERE A.ADDR=B.PADDR ORDER BY B.USERNAME");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+	
+	public ProcessResult<TableInfo> queryBGProcessInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT NAME,DESCRIPTION FROM V$BGPROCESS WHERE PADDR<>'00'");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
 }
