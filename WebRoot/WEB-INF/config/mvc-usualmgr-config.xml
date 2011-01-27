@@ -71,6 +71,12 @@
 		<property name="propSessionPageUrl">
 			<value>/jsp/usualmgr/usual-props-session</value>
 		</property>
+		<property name="processAndSessionPageUrl">
+			<value>/jsp/usualmgr/usual-other-processandsession</value>
+		</property>
+		<property name="bgprocessPageUrl">
+			<value>/jsp/usualmgr/usual-other-bgprocess</value>
+		</property>
 		<property name="usualMgrBiz">
 			<ref bean="usualMgrBiz" />
 		</property>
