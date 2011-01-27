@@ -302,7 +302,7 @@ function doit(url){
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryRollbackSegmentInfo');">回滚段情况</a></li>
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryJobsInfo');">schedule/job</a></li>
           <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryPropsServerInfo');">字符集</a></li>
-          <li><a href="#" target="I2">其他</a></li>
+          <li><a href="#" onclick="javascript:doit('/usualMgr.do?method=queryProcessAndSessionInfo');">其他</a></li>
         </ul>
       </div>
 
