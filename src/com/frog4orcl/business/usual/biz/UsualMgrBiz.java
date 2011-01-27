@@ -314,4 +314,29 @@ public interface UsualMgrBiz {
 	public ProcessResult<TableInfo> queryPropsSessionInfo(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询进程和session(与ORACLE相关的所有进程信息(包括后台进程和服务器进程))
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryProcessAndSessionInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询后台进程详细信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryBGProcessInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
 }
+
