@@ -343,6 +343,42 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 		}
 	}
 
+	public ProcessResult<TableInfo> queryTempTablespaceInfoIncludeDatafile(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba) {
+		String parameterName = request.getParameter("parameterName");
+		StringBuffer sql = new StringBuffer();
+
+		sql.append("SELECT B.TABLESPACE_NAME,");
+		sql.append("B.FILE_NAME,B.BYTES,");
+		sql.append("(B.BYTES - SUM(NVL(A.BYTES, 0))) USED,");
+		sql.append("SUM(NVL(A.BYTES, 0)) FREE,");
+		sql.append("ROUND(SUM(NVL(A.BYTES, 0)) / (B.BYTES) * 100,2) as \"FREE(%)\"");
+		sql.append(" FROM DBA_FREE_SPACE A,DBA_TEMP_FILES B");
+		sql.append(" WHERE A.FILE_ID = B.FILE_ID");
+		
+		try {
+			if (parameterName != null && !parameterName.equals("")) {
+				parameterName = parameterName.trim();
+				sql.append(" AND B.TABLESPACE_NAME LIKE ?");
+				sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
+				sql.append(" ORDER BY B.TABLESPACE_NAME");
+				dba.setSQL(sql.toString());
+				dba.setObject(1, parameterName+"%");
+			}else{
+				sql.append(" GROUP BY B.TABLESPACE_NAME, B.FILE_NAME,B.FILE_ID,B.BYTES");
+				sql.append(" ORDER BY B.TABLESPACE_NAME");
+				dba.setSQL(sql.toString());
+			}
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			request.setAttribute("parameterName", TextUtils.nvl(parameterName));
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+	
 	public ProcessResult<TableInfo> queryControlInfo(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba) {
@@ -700,6 +736,108 @@ public class UsualMgrBizImpl implements UsualMgrBiz {
 			DBManagerImpl dba, Pagination page) {
 		StringBuffer sql = new StringBuffer();
 		sql.append("SELECT NAME,DESCRIPTION FROM V$BGPROCESS WHERE PADDR<>'00'");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryUndoInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.NAME,");
+		sql.append("T.VALUE,");
+		sql.append("T.ISDEFAULT");
+		sql.append(" FROM V$PARAMETER T");
+		sql.append(" WHERE T.NAME LIKE 'undo%'");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryDirectoriesInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM DBA_DIRECTORIES");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryDBLinkInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT * FROM DBA_DB_LINKS");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryExtTabInfo(HttpServletRequest request,
+			HttpServletResponse response, DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.TABLE_NAME,");
+		sql.append("T.OWNER,T.TYPE_NAME,");
+		sql.append("T.DEFAULT_DIRECTORY_OWNER,");
+		sql.append("T.DEFAULT_DIRECTORY_NAME");
+		sql.append(" FROM DBA_EXTERNAL_TABLES T");
+
+		try {
+			dba.setSQL(sql.toString());
+			ProcessResult<TableInfo> ti = this.usualMgrDao.query(dba, page,null);
+			return ti;
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			throw new DatabaseException(e.getMessage());
+		}
+	}
+
+	public ProcessResult<TableInfo> queryPationTabInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ProcessResult<TableInfo> queryPationTypeInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ProcessResult<TableInfo> queryArchLogInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT T.RECID,T.STAMP,T.NAME,T.FIRST_CHANGE#,");
+		sql.append("T.NEXT_CHANGE#,T.BLOCKS,T.BLOCK_SIZE,");
+		sql.append("T.ARCHIVED,T.STATUS,T.COMPLETION_TIME");
+		sql.append(" FROM V$ARCHIVED_LOG T ORDER BY T.COMPLETION_TIME DESC");
 
 		try {
 			dba.setSQL(sql.toString());

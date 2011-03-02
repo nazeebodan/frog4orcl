@@ -112,6 +112,7 @@ public class InitBizImpl implements InitBiz {
 		
 		sql.append("SELECT T.DBID,");
 		sql.append("T.CREATED,");
+		sql.append("T.LOG_MODE,");
 		sql.append("T.FORCE_LOGGING,");
 		sql.append("T.FLASHBACK_ON,");
 		sql.append("T.PLATFORM_NAME");

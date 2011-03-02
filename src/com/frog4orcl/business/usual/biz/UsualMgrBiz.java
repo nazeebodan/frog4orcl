@@ -124,6 +124,18 @@ public interface UsualMgrBiz {
 			DBManagerImpl dba);
 
 	/**
+	 * 查询临时表空间情况包含数据文件信息
+	 * 
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryTempTablespaceInfoIncludeDatafile(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba);
+
+	/**
 	 * 查询control file信息
 	 * 
 	 * @param request
@@ -218,6 +230,18 @@ public interface UsualMgrBiz {
 	public ProcessResult<TableInfo> queryRollbackSegmentInfo(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询undo参数情况
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryUndoInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba);
 	
 	/**
 	 * 查询老版本的job信息
@@ -336,6 +360,78 @@ public interface UsualMgrBiz {
 	 * @return
 	 */
 	public ProcessResult<TableInfo> queryBGProcessInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询目录对象的信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryDirectoriesInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询数据链的信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryDBLinkInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询外部表的信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryExtTabInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询分区表的信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryPationTabInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询分区模式的信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryPationTypeInfo(
+			HttpServletRequest request, HttpServletResponse response,
+			DBManagerImpl dba, Pagination page);
+	
+	/**
+	 * 查询归档日志信息
+	 * @param request
+	 * @param response
+	 * @param dba
+	 * @param page
+	 * @return
+	 */
+	public ProcessResult<TableInfo> queryArchLogInfo(
 			HttpServletRequest request, HttpServletResponse response,
 			DBManagerImpl dba, Pagination page);
 }
