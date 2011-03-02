@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!--lock的配置开始 -->
+	<bean id="lockMgrBiz"
+		class="com.frog4orcl.business.alert.biz.impl.LockMgrBizImpl">
+		<property name="alertMgrMKDao">
+			<ref bean="alertMgrMKDao" />
+		</property>
+	</bean>
+	<!--lock的配置结束 -->
+	
+	<!--store的配置开始 -->
+	<bean id="storeMgrBiz"
+		class="com.frog4orcl.business.alert.biz.impl.StoreMgrBizImpl">
+		<property name="alertMgrMKDao">
+			<ref bean="alertMgrMKDao" />
+		</property>
+	</bean>
+	<!--store的配置结束 -->
+	
+	<!-- 告警模块的DAO开始-->
+	<bean id="alertMgrMKDao"
+		class="com.frog4orcl.business.alert.dao.impl.AlertMgrMKDaoImpl">
+	</bean>
+	<!-- 告警模块的DAO结束 -->
+</beans>

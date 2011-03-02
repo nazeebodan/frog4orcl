@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="alertUrlMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/lockMgr.do">lockMgr</prop>
+				<prop key="/storeMgr.do">storeMgr</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="lockMgr"
+		class="com.frog4orcl.business.alert.web.LockMgrAction">
+		<property name="methodNameResolver">
+			<ref bean="paraMethodResolver" />
+		</property>
+		<property name="errorJsp">
+			<value>/error</value>
+		</property>
+		<property name="lockInfoPageUrl">
+			<value>/jsp/alert/alert-lock</value>
+		</property>
+		<property name="lockObjInfoPageUrl">
+			<value>/jsp/alert/alert-lock-obj</value>
+		</property>
+		<property name="lockMgrBiz">
+			<ref bean="lockMgrBiz" />
+		</property>
+	</bean>
+	
+	<bean id="storeMgr"
+		class="com.frog4orcl.business.alert.web.StoreMgrAction">
+		<property name="methodNameResolver">
+			<ref bean="paraMethodResolver" />
+		</property>
+		<property name="errorJsp">
+			<value>/error</value>
+		</property>
+		<property name="overXBlocksPageurl">
+			<value>/jsp/alert/alert-over-block</value>
+		</property>
+		<property name="overXExtentsPageurl">
+			<value>/jsp/alert/alert-over-extent</value>
+		</property>
+		<property name="storeMgrBiz">
+			<ref bean="storeMgrBiz" />
+		</property>
+	</bean>
+
+</beans>

@@ -29,6 +29,9 @@
 		<property name="tablespacePageUrl">
 			<value>/jsp/usualmgr/usual-tablespace</value>
 		</property>
+		<property name="tempTablespacePageUrl">
+			<value>/jsp/usualmgr/usual-temptablespace</value>
+		</property>
 		<property name="controlfilePageUrl">
 			<value>/jsp/usualmgr/usual-controlfile</value>
 		</property>
@@ -76,6 +79,15 @@
 		</property>
 		<property name="bgprocessPageUrl">
 			<value>/jsp/usualmgr/usual-other-bgprocess</value>
+		</property>
+		<property name="directoriesPageUrl">
+			<value>/jsp/usualmgr/usual-other-directories</value>
+		</property>
+		<property name="dbLinkPageUrl">
+			<value>/jsp/usualmgr/usual-other-dblink</value>
+		</property>
+		<property name="archLogPageUrl">
+			<value>/jsp/usualmgr/usual-archlogfile</value>
 		</property>
 		<property name="usualMgrBiz">
 			<ref bean="usualMgrBiz" />

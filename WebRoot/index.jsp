@@ -20,31 +20,28 @@ String message = (String)request.getAttribute(SystemConstant.INDEX_MSG);
 	<div id="loginlogo">
 		<img src="image/login/crazy frog.jpg"/>
 	</div>
-	<div id="loginmsg">
-	    <img src="image/common/information.png"/>请点击登录
-	</div>
 
  <form id="loginform" method="post" action="<%=path%>/login.do?method=login">
 	<table align="center">
   		<tr>
-			<td>IP地址</td>
+			<td ><font size="2">IP地址</font></td>
 			<td width="155px"><input type="text" name="ip" value="172.16.40.26"></td>
   		</tr>
   		<tr>
-			<td>端口号</td>
+			<td><font size="2">端口号</font></td>
 			<td><input type="text" name="port" value="1521"></td>
   		</tr>
   		<tr>
-			<td>SID</td>
+			<td align="left"><font size="2">SID</font></td>
 			<td><input type="text" name="sid" value="orcl"></td>
   		</tr>
   		<tr>
-			<td>用户名</td>
+			<td><font size="2">用户名</font></td>
 			<td><input type="text" name="username" value="scott"></td>
   		</tr>
-    	<tr>
-			<td>密码</td>
-			<td><input type="password" name="password" value="tiger"></td>
+    	<tr align="left">
+			<td align="left"><font size="2">密码</font></td>
+			<td align="left"><input type="password" name="password" value="tiger"></td>
   		</tr>
   	</table>
   	<input class="button" type="reset" value="重置">

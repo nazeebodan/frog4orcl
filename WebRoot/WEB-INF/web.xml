@@ -10,7 +10,9 @@
 			/WEB-INF/config/mvc-init-config.xml,
 			/WEB-INF/config/bean-init-config.xml,
 			/WEB-INF/config/mvc-usualmgr-config.xml,
-			/WEB-INF/config/bean-usualmgr-config.xml
+			/WEB-INF/config/bean-usualmgr-config.xml,
+			/WEB-INF/config/mvc-alertmgr-config.xml,
+			/WEB-INF/config/bean-alertmgr-config.xml
 		</param-value>
 	</context-param>
 
@@ -32,7 +34,9 @@
 				/WEB-INF/config/mvc-init-config.xml,
 				/WEB-INF/config/bean-init-config.xml,
 				/WEB-INF/config/mvc-usualmgr-config.xml,
-				/WEB-INF/config/bean-usualmgr-config.xml
+				/WEB-INF/config/bean-usualmgr-config.xml,
+				/WEB-INF/config/mvc-alertmgr-config.xml,
+				/WEB-INF/config/bean-alertmgr-config.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>

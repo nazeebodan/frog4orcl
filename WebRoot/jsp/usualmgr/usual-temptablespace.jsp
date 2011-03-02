@@ -24,7 +24,7 @@ function secBoard(v){
 </script>
 </head>
 <body>
-<form method="post" action="<%=path%>/usualMgr.do?method=queryTablespaceInfo">
+<form method="post" action="<%=path%>/usualMgr.do?method=queryTempTablespaceInfo">
 <div id="center-column">
 			<div class="top-bar">
 				<a href="#" class="button"> </a>
@@ -39,54 +39,15 @@ function secBoard(v){
 			<TABLE width=72% border=0 cellPadding=0 cellSpacing=0 id=secTable>
                 <TBODY>
                   <TR align=middle height=20>
-                    <TD align="center" onclick=secBoard(0) style="background-color:#F7EFF1;">表空间</TD>
-                    <TD align="center" onclick=secBoard(1)>临时表空间</TD>
+                    <TD align="center" onclick=secBoard(0)>表空间</TD>
+                    <TD align="center" onclick=secBoard(1) style="background-color:#F7EFF1;">临时表空间</TD>
                   </TR>
                 </TBODY>
               </TABLE>
 		  </div>
-		 <div class="select-bar">
-		    <label>
-		    <span class="breadcrumbs">表空间名:
-		    <input type="text" name="parameterName" value="<%=parameterName %>"/>
-		    </label>
-		    <label>
-			<input type="submit" name="Submit" value="Search" />
-			</label>
-			</span>
-		  </div>
-		  <br /><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
-			<b>表空间使用情况(总):</b><div class="table">
-				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
-				<table class="listing" cellpadding="0" cellspacing="0">
-					<tr>
-						<c:if test="${tablespace1.data!= null}">
-							<c:forEach var="columns" items="${tablespace1.data.columns}" varStatus="s">
-								<c:if test="${s.first}">
-									<th class="first"><c:out value="${columns.name}"/></th>
-								</c:if>
-								<c:if test="${!s.first}">
-									<th><c:out value="${columns.name}"/></th>
-								</c:if>
-							</c:forEach>
-						</c:if>						
-					</tr>					
-					<c:if test="${tablespace1.data!=null}">
-						<c:if test="${tablespace1.data.data!=null}">
-							<c:forEach var="rowMap" items="${tablespace1.data.data.rows}">
-							<tr>
-								<c:forEach var="columns" items="${tablespace1.data.columns}" >
-									<td><c:out value="${rowMap[columns.name]}"></c:out></td>
-								</c:forEach>
-							</tr>
-							</c:forEach>
-						</c:if>
-					</c:if>
-				</table>
-			</div>
 			
 			<br /> <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
-			<b>表空间使用情况(含数据文件位置):</b> <div class="table">
+			<b>临时表空间使用情况(含数据文件位置):</b> <div class="table">
 				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
 				<table class="listing" cellpadding="0" cellspacing="0">
 					<tr>

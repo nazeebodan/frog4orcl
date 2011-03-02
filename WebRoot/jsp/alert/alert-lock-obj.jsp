@@ -17,13 +17,9 @@ Pagination pageObj = (Pagination)request.getAttribute(SystemConstant.PAGE_OBJECT
 function secBoard(v){
    var url;
    if(v==0){
-      url = "/usualMgr.do?method=queryProcessAndSessionInfo";
+      url = "/lockMgr.do?method=queryLockInfo";
    }else if(v==1){
-      url = "/usualMgr.do?method=queryBGProcessInfo"
-   }else if(v==2){
-      url = "/usualMgr.do?method=queryDirectoriesInfo"
-   }else if(v==3){
-      url = "/usualMgr.do?method=queryDBLinkInfo"
+      url = "/lockMgr.do?method=queryLockObjectInfo"
    }
    window.location='<%=path%>'+url;
 }
@@ -31,11 +27,11 @@ function secBoard(v){
 </head>
 
 <body>
-<form method="post" action="<%=path%>/usualMgr.do?method=queryBGProcessInfo">
+<form method="post" action="<%=path%>/lockMgr.do?method=queryLockObjectInfo">
 <div id="center-column">
 			<div class="top-bar">
 				<a href="#" class="button"> </a>
-				<h1>其他信息</h1>
+				<h1>锁的信息</h1>
 				<div class="breadcrumbs"></div>
 			</div><br />
 		  <div class="select-bar">
@@ -46,16 +42,14 @@ function secBoard(v){
 			<TABLE width=72% border=0 cellPadding=0 cellSpacing=0 id=secTable>
                 <TBODY>
                   <TR align=middle height=20>
-                    <TD align="center" onclick=secBoard(0) >进程信息</TD>
-                    <TD align="center" onclick=secBoard(1) style="background-color:#F7EFF1;">后台进程详细信息</TD>
-                  	<TD align="center" onclick=secBoard(2)>目录对象信息</TD>
-                  	<TD align="center" onclick=secBoard(3)>DBLINK信息</TD>
+                    <TD align="center" onclick=secBoard(0)>被锁的信息</TD>
+                    <TD align="center" onclick=secBoard(1) style="background-color:#F7EFF1;">被锁的对象信息</TD>
                   </TR>
                 </TBODY>
               </TABLE>
 		  </div>
 		  <br /><HR style="FILTER: alpha(opacity=100,finishopacity=0,style=1)" width="80%" color=#987cb9 SIZE=3>
-			<b>后台进程详细信息:</b><div class="table">
+			<b>被锁的对象信息:</b><div class="table">
 				<img src="<%=path %>/jsp/init/images/bg-th-left.gif" width="8" height="7" alt="" class="left" />
 				<table class="listing" cellpadding="0" cellspacing="0">
 					<tr>
