@@ -29,23 +29,27 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 	private String initParameterUrl;// 显示初始化参数的页面
 	private String sgaPageUrl;// 显示sga信息的url
 	private String tablespacePageUrl;// 显示tablespace信息的url
+	private String tempTablespacePageUrl;// 显示temp tablespace信息的url
 	private String controlfilePageUrl;// 显示控制文件信息的url
-	private String redologfilePageUrl;//显示重做日志文件的url
-	private String userInfoPageUrl;//用户信息的url
-	private String userPrivInfoPageUrl;//用户权限信息的url
-	private String userHaveObjectsPageUrl;//用户拥有对象的url
-	private String backupDataFilePageUrl;//联机数据文件的备份状态的url
-	private String rollbackSegPageUrl;//回滚段信息的url
-	private String jobPageUrl;//老的job的url
-	private String jobRunningPageUrl;//正在运行的job信息的url
-	private String schedulerJobPageUrl;//schedulers下的job信息的url
-	private String schedulersPageUrl;//schedulers信息的url
-	private String propServerPageUrl;//字符集server端信息的url
-	private String propClientPageUrl;//字符集client端信息的url
-	private String propSessionPageUrl;//字符集session信息的url
-	private String processAndSessionPageUrl;//processAndSession信息的url
-	private String bgprocessPageUrl;//bgprocess信息的url
-	
+	private String redologfilePageUrl;// 显示重做日志文件的url
+	private String userInfoPageUrl;// 用户信息的url
+	private String userPrivInfoPageUrl;// 用户权限信息的url
+	private String userHaveObjectsPageUrl;// 用户拥有对象的url
+	private String backupDataFilePageUrl;// 联机数据文件的备份状态的url
+	private String rollbackSegPageUrl;// 回滚段信息的url
+	private String jobPageUrl;// 老的job的url
+	private String jobRunningPageUrl;// 正在运行的job信息的url
+	private String schedulerJobPageUrl;// schedulers下的job信息的url
+	private String schedulersPageUrl;// schedulers信息的url
+	private String propServerPageUrl;// 字符集server端信息的url
+	private String propClientPageUrl;// 字符集client端信息的url
+	private String propSessionPageUrl;// 字符集session信息的url
+	private String processAndSessionPageUrl;// processAndSession信息的url
+	private String bgprocessPageUrl;// bgprocess信息的url
+	private String directoriesPageUrl;//目录对象的url
+	private String dbLinkPageUrl;//数据链的url
+	private String archLogPageUrl;//归档日志的url
+
 	private UsualMgrBiz usualMgrBiz;
 
 	public void setUsualMgrBiz(UsualMgrBiz usualMgrBiz) {
@@ -156,6 +160,28 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
+	
+	/**
+	 * 查询临时表空间情况
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView queryTempTablespaceInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
+			ProcessResult<TableInfo> tablespace2 = this.usualMgrBiz
+					.queryTempTablespaceInfoIncludeDatafile(request, response, dba
+							.getData());
+			request.setAttribute("tablespace2", tablespace2);
+			return new ModelAndView(this.getTempTablespacePageUrl());
+		} catch (Exception e) {
+			return sendErrorjsp(request, response, e.getMessage());
+		}
+	}
 
 	/**
 	 * 查询控制文件信息
@@ -181,7 +207,7 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询重做日志文件信息
 	 * 
@@ -196,14 +222,14 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			ProcessResult<TableInfo> redolog = this.usualMgrBiz
 					.queryRedoLogInfo(request, response, dba.getData());
-			
+
 			request.setAttribute("redolog", redolog);
 			return new ModelAndView(this.getRedologfilePageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询用户信息
 	 * 
@@ -216,16 +242,16 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			HttpServletResponse response) throws Exception {
 		try {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
-			ProcessResult<TableInfo> userinfo = this.usualMgrBiz
-					.queryUserInfo(request, response, dba.getData());
-			
+			ProcessResult<TableInfo> userinfo = this.usualMgrBiz.queryUserInfo(
+					request, response, dba.getData());
+
 			request.setAttribute("userinfo", userinfo);
 			return new ModelAndView(this.getUserInfoPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询用户权限信息
 	 * 
@@ -240,16 +266,16 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> userPrivInfo = this.usualMgrBiz
-					.queryUserPrivInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("userPrivInfo",userPrivInfo);
+					.queryUserPrivInfo(request, response, dba.getData(), page);
+
+			request.setAttribute("userPrivInfo", userPrivInfo);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getUserPrivInfoPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询用户所含对象信息
 	 * 
@@ -264,18 +290,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> userHaveObjectsInfo = this.usualMgrBiz
-					.queryUserHaveObjectsInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("userHaveObjectsInfo",userHaveObjectsInfo);
+					.queryUserHaveObjectsInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("userHaveObjectsInfo", userHaveObjectsInfo);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getUserHaveObjectsPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询联机数据文件的备份状态
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -287,18 +315,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> backupDataFileInfo = this.usualMgrBiz
-					.queryBackupDataFileInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("backupDataFileInfo",backupDataFileInfo);
+					.queryBackupDataFileInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("backupDataFileInfo", backupDataFileInfo);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getBackupDataFilePageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询回滚段创建时物理存储情况
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -309,19 +339,24 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 		try {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
+			ProcessResult<TableInfo> undoInfo = this.usualMgrBiz.queryUndoInfo(
+					request, response, dba.getData());
 			ProcessResult<TableInfo> rollbackSegmentInfo = this.usualMgrBiz
-					.queryRollbackSegmentInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("rollbackSegmentInfo",rollbackSegmentInfo);
+					.queryRollbackSegmentInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("undoInfo", undoInfo);
+			request.setAttribute("rollbackSegmentInfo", rollbackSegmentInfo);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getRollbackSegPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询老版本的job信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -332,19 +367,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 		try {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
-			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryJobsInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+			ProcessResult<TableInfo> info = this.usualMgrBiz.queryJobsInfo(
+					request, response, dba.getData(), page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getJobPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询老版本正在执行的job信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -356,18 +392,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryRunningJobsInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.queryRunningJobsInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getJobRunningPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询scheduler下的job信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -379,18 +417,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.querySchedulerJobsInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.querySchedulerJobsInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getSchedulerJobPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询scheduler的信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -402,18 +442,19 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.querySchedulersInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.querySchedulersInfo(request, response, dba.getData(), page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getSchedulersPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询数据库服务器字符集的信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -425,21 +466,23 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info1 = this.usualMgrBiz
-			.queryPropsServerInfo(request, response, dba.getData());
+					.queryPropsServerInfo(request, response, dba.getData());
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryPropsServerInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info1",info1);
-			request.setAttribute("info",info);
+					.queryPropsServerInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("info1", info1);
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getPropServerPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询数据库client字符集的信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -451,18 +494,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryPropsClientInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.queryPropsClientInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getPropClientPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询数据库session字符集的信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -474,18 +519,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryPropsSessionInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.queryPropsSessionInfo(request, response, dba.getData(),
+							page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getPropSessionPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询进程和session(与ORACLE相关的所有进程信息(包括后台进程和服务器进程))
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -497,18 +544,20 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryProcessAndSessionInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.queryProcessAndSessionInfo(request, response, dba
+							.getData(), page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getProcessAndSessionPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 查询后台进程详细信息
+	 * 
 	 * @param request
 	 * @param response
 	 * @return
@@ -520,16 +569,87 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
 			Pagination page = new OraclePagination(request);
 			ProcessResult<TableInfo> info = this.usualMgrBiz
-					.queryBGProcessInfo(request, response, dba.getData(),page);
-			
-			request.setAttribute("info",info);
+					.queryBGProcessInfo(request, response, dba.getData(), page);
+
+			request.setAttribute("info", info);
 			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
 			return new ModelAndView(this.getBgprocessPageUrl());
 		} catch (Exception e) {
 			return sendErrorjsp(request, response, e.getMessage());
 		}
 	}
+	
+	/**
+	 * 查询目录对象信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView queryDirectoriesInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
+			Pagination page = new OraclePagination(request);
+			ProcessResult<TableInfo> info = this.usualMgrBiz
+					.queryDirectoriesInfo(request, response, dba.getData(), page);
 
+			request.setAttribute("info", info);
+			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
+			return new ModelAndView(this.getDirectoriesPageUrl());
+		} catch (Exception e) {
+			return sendErrorjsp(request, response, e.getMessage());
+		}
+	}
+	
+	/**
+	 * 查询数据链
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView queryDBLinkInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
+			Pagination page = new OraclePagination(request);
+			ProcessResult<TableInfo> info = this.usualMgrBiz
+					.queryDBLinkInfo(request, response, dba.getData(), page);
+
+			request.setAttribute("info", info);
+			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
+			return new ModelAndView(this.getDbLinkPageUrl());
+		} catch (Exception e) {
+			return sendErrorjsp(request, response, e.getMessage());
+		}
+	}
+	
+	/**
+	 * 查询归档日志信息
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView queryArchLogInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		try {
+			ProcessResult<DBManagerImpl> dba = super.checkLogin(request);
+			Pagination page = new OraclePagination(request);
+			ProcessResult<TableInfo> info = this.usualMgrBiz
+					.queryArchLogInfo(request, response, dba.getData(), page);
+
+			request.setAttribute("info", info);
+			request.setAttribute(SystemConstant.PAGE_OBJECT_DATA, page);
+			return new ModelAndView(this.getArchLogPageUrl());
+		} catch (Exception e) {
+			return sendErrorjsp(request, response, e.getMessage());
+		}
+	}
+	
+	
+	
 	public String getControlfilePageUrl() {
 		return controlfilePageUrl;
 	}
@@ -656,5 +776,37 @@ public class UsualMgrAction extends Frog4orclBaseMultiActionController {
 
 	public void setBgprocessPageUrl(String bgprocessPageUrl) {
 		this.bgprocessPageUrl = bgprocessPageUrl;
+	}
+
+	public String getDirectoriesPageUrl() {
+		return directoriesPageUrl;
+	}
+
+	public void setDirectoriesPageUrl(String directoriesPageUrl) {
+		this.directoriesPageUrl = directoriesPageUrl;
+	}
+
+	public String getTempTablespacePageUrl() {
+		return tempTablespacePageUrl;
+	}
+
+	public void setTempTablespacePageUrl(String tempTablespacePageUrl) {
+		this.tempTablespacePageUrl = tempTablespacePageUrl;
+	}
+
+	public String getDbLinkPageUrl() {
+		return dbLinkPageUrl;
+	}
+
+	public void setDbLinkPageUrl(String dbLinkPageUrl) {
+		this.dbLinkPageUrl = dbLinkPageUrl;
+	}
+
+	public String getArchLogPageUrl() {
+		return archLogPageUrl;
+	}
+
+	public void setArchLogPageUrl(String archLogPageUrl) {
+		this.archLogPageUrl = archLogPageUrl;
 	}
 }
