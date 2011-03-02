@@ -20,6 +20,10 @@ function secBoard(v){
       url = "/usualMgr.do?method=queryProcessAndSessionInfo";
    }else if(v==1){
       url = "/usualMgr.do?method=queryBGProcessInfo"
+   }else if(v==2){
+      url = "/usualMgr.do?method=queryDirectoriesInfo"
+   }else if(v==3){
+      url = "/usualMgr.do?method=queryDBLinkInfo"
    }
    window.location='<%=path%>'+url;
 }
@@ -44,6 +48,8 @@ function secBoard(v){
                   <TR align=middle height=20>
                     <TD align="center" onclick=secBoard(0) style="background-color:#F7EFF1;">进程信息</TD>
                     <TD align="center" onclick=secBoard(1)>后台进程详细信息</TD>
+                  	<TD align="center" onclick=secBoard(2)>目录对象信息</TD>
+                  	<TD align="center" onclick=secBoard(3)>DBLINK信息</TD>
                   </TR>
                 </TBODY>
               </TABLE>
